@@ -1,0 +1,139 @@
+{
+  "titel": "Kaiserschmarrn aus dem Ofen",
+  "kategorie": "deutsch",
+  "schwierigkeitsgrad": "einfach",
+  "bild_url": "Kaiserschmarrn.png",
+  "portionen": 2,
+  "zubereitungszeit": {
+    "vorbereitung_min": 10,
+    "kochen_min": 26,
+    "gesamt_min": 36
+  },
+  "zutaten": [
+    {
+      "name": "Milch",
+      "menge": 330,
+      "einheit": "ml",
+      "menge_original": "330 ml",
+      "hinweis": null
+    },
+    {
+      "name": "Sahne",
+      "menge": 60,
+      "einheit": "ml",
+      "menge_original": "60 ml",
+      "hinweis": null
+    },
+    {
+      "name": "Eier",
+      "menge": 4,
+      "einheit": "",
+      "menge_original": "4",
+      "hinweis": null
+    },
+    {
+      "name": "Mehl",
+      "menge": 160,
+      "einheit": "g",
+      "menge_original": "160 g",
+      "hinweis": null
+    },
+    {
+      "name": "Zucker",
+      "menge": 30,
+      "einheit": "g",
+      "menge_original": "30 g",
+      "hinweis": null
+    },
+    {
+      "name": "Vanillezucker",
+      "menge": 1,
+      "einheit": "Pkg.",
+      "menge_original": "1 Pkg.",
+      "hinweis": null
+    },
+    {
+      "name": "Salz",
+      "menge": 1,
+      "einheit": "Prise",
+      "menge_original": "1 Prise",
+      "hinweis": null
+    },
+    {
+      "name": "Rosinen",
+      "menge": 1,
+      "einheit": "nach belieben",
+      "menge_original": "1 nach belieben",
+      "hinweis": null
+    },
+    {
+      "name": "Butter",
+      "menge": 50,
+      "einheit": "g",
+      "menge_original": "50 g",
+      "hinweis": null
+    },
+    {
+      "name": "Zucker",
+      "menge": 1,
+      "einheit": "EL",
+      "menge_original": "1 EL",
+      "hinweis": null
+    },
+    {
+      "name": "Puderzucker",
+      "menge": 1,
+      "einheit": "nach belieben",
+      "menge_original": "1 nach belieben",
+      "hinweis": null
+    },
+    {
+      "name": "Apfelmus",
+      "menge": 1,
+      "einheit": "nach belieben",
+      "menge_original": "1 nach belieben",
+      "hinweis": null
+    }
+  ],
+  "schritte": {
+    "vorbereitung": [
+      {
+        "nummer": "1.1",
+        "text": "Ofen auf 230°C vorheizen. Eine ofenfeste Pfanne mit erwäremen.",
+        "zeit_min": 9
+      },
+      {
+        "nummer": "1.2",
+        "text": "Milch, Sahne, Eier, Mehl, Zucker, Vanillezucker und Salz sowie nach belieben Rosinen zu einem glatten Teig vermengen.",
+        "zeit_min": 1
+      }
+    ],
+    "zubereitung": [
+      {
+        "nummer": "2.1",
+        "text": "Butter in heißer Pfanne schäumig zergehen lassen.",
+        "zeit_min": 0
+      },
+      {
+        "nummer": "2.2",
+        "text": "Zucker in heißer Pfanne karamellisieren.",
+        "zeit_min": 1
+      },
+      {
+        "nummer": "2.3",
+        "text": "Kaiserschmarrnmasse in die Pfanne geben und im Ofen backen. Der Teig geht insbesondere an den Rändern stark auf.",
+        "zeit_min": 25
+      },
+      {
+        "nummer": "2.4",
+        "text": "Kaiserschmarrn mit zwei Löffeln zerrupfen.",
+        "zeit_min": 0
+      },
+      {
+        "nummer": "2.5",
+        "text": "Kaiserschmarrn nach belieben mit Puderzucker bestäuben und mit Apfelmus servieren",
+        "zeit_min": 0
+      }
+    ]
+  }
+}

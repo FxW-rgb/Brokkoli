@@ -1,0 +1,122 @@
+﻿<!-- ----------------------------------------------------------------------------------------------------------------------------->
+<!-- Kochbuch-Website - Rezepte-Seite                                                                                           -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------->
+<!-- Webtechnologien 2026                                                                                                       -->
+<!-- Team Brokkoli                                                                                                              -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------->
+
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Luzie Kübler">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rezepte</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Header mit Navbar samt Logo -->
+    <header>
+        <nav class="navbar navbar-expand-lg eigene_navbar fs-5 bg-light mb-4">
+            <a class="navbar-brand mx-3" href="#"><img src="img/Logo.png" class="img-fluid"
+                    alt="Logo der App mit einem Brokkoli, der in einer Pfanne gegart wird"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="Rezepte.html">Rezepte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Einkaufsliste.html">Einkaufsliste</a>
+                    </li>
+                    <li class="nav-item">
+                         <a class="nav-link" href="EigenesRezept.html">Rezept erstellen</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+
+    <main>
+        <h1 class="visually-hidden">Rezepte suchen und filtern</h1>
+        <!-- Suchleiste -->
+        <div class="greenbanner">
+            <div class="container">
+                <div class="search-container">
+                    <label class="visually-hidden" for="suchbegriff">Rezept oder Zutat suchen</label>
+                    <input type="text" class="form-control search-input" placeholder="Rezept oder Zutat suchen..." id="suchbegriff">
+                    <button type="button" class="search-btn" aria-label="Suche starten">
+                        <img src="img/Lupensymbol.png" class="search-icon img-fluid"
+                            alt="Lupensymbol zur Repräsentation der Suchfunktion">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter -->
+        <div style="background-color: var(--hintergrund-hellgruen); padding: 10px;">
+            <div class="container">
+                <div class="filter-container">
+                    <div class="filterauswahl d-flex align-items-center gap-2">
+                        <label class="form-label mb-0 text-nowrap" for="kategorieFilter">🍽️ Kategorie:</label>
+                        <select class="form-control" id="kategorieFilter">
+                            <option value="">alle</option>
+                            <option value="Frühstück">Frühstück</option>
+                            <option value="Vorspeise">Vorspeise</option>
+                            <option value="Hauptgericht">Hauptgericht</option>
+                            <option value="Beilage">Beilage</option>
+                            <option value="Dessert">Dessert</option>
+                            <option value="Sonstiges">Sonstiges</option>
+                        </select>
+                    </div>
+
+                    <div class="filterauswahl d-flex align-items-center gap-2">
+                        <label class="form-label mb-0 text-nowrap" for="kuecheFilter">🌍 Landesküche:</label>
+                        <select class="form-control" id="kuecheFilter">
+                            <option value="">Lädt...</option>
+                        </select>
+                    </div>
+
+                    <div class="filterauswahl d-flex align-items-center gap-2">
+                        <label class="form-label mb-0 text-nowrap" for="schwierigkeitFilter">⚙️ Schwierigkeitsgrad:</label>
+                        <select class="form-control" id="schwierigkeitFilter">
+                            <option class="filterauswahl" value="">alle</option>
+                            <option class="filterauswahl" value="leicht">leicht</option>
+                            <option class="filterauswahl" value="mittel">mittel</option>
+                            <option class="filterauswahl" value="schwer">schwer</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    <!-- Bilderreihe an Rezepten -->
+        <div id="statusmeldung" class="visually-hidden" aria-live="polite"></div>
+        <div class="container">
+            <div class="row" id="rezepteListe">
+                <div class="col-12 text-center my-5">
+                    <p class="text-muted">Rezepte werden geladen...</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/script-rezepte.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+

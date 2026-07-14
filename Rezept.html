@@ -1,0 +1,159 @@
+﻿<!-- ----------------------------------------------------------------------------------------------------------------------------->
+<!-- Kochbuch-Website - Rezept-Template                                                                                         -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------->
+<!-- Webtechnologien 2026                                                                                                       -->
+<!-- Team Brokkoli                                                                                                              -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------->
+
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Luzie Kübler">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rezepte</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Header mit Navbar samt Logo -->
+    <header>
+        <nav class="navbar navbar-expand-lg eigene_navbar fs-5 bg-light mb-4">
+            <a class="navbar-brand mx-3" href="#"><img src="img/Logo.png" class="img-fluid"
+                    alt="Logo der App mit einem Brokkoli, der in einer Pfanne gegart wird"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="Rezepte.html">Rezepte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Einkaufsliste.html">Einkaufsliste</a>
+                    </li>
+                    <li class="nav-item">
+                         <a class="nav-link" href="EigenesRezept.html">Rezept erstellen</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hauptinhalt - Haben wir hier als Platzhalter drin gelassen, wird aber später durch ein innerHTML von JavaScript ersetzt -->
+    <div class="container py-3" id="rezeptInhalt">
+        <!-- Rezepttitel -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="my-2">Rezepttitel</h1>
+                <div class="d-flex gap-3 mb-4">
+                    <span class="text-muted">Kategorie</span>
+                    <span class="text-muted">·</span>
+                    <span class="text-muted">Gesamtdauer</span>
+                    <span class="text-muted">·</span>
+                    <span class="text-muted">Schwierigkeitsgrad</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ansicht + Zutaten -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8 border border-secondary rounded g-0">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <img src="img/Gericht.jpg" alt="Abbildung des aktuellen Rezeptes" class="img-fluid rounded">
+                    </div>
+                    <div class="col-md-6 p-4">
+                        <!-- Kopfzeile: Zutaten + Button -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3 class="mb-0">Zutaten</h3>
+                            <button type="button" class="btn btn-sm btn-gruen" id="aufeinkaufsliste">
+                                + Einkaufsliste
+                            </button>
+                        </div>
+                        <!-- Portionen-Steuerung -->
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <span class="text-muted" style="white-space: nowrap;">Portionen:</span>
+                            <input type="number" class="form-control form-control-sm text-center portionen-input"
+                                id="portionen-input" value="4" min="1">
+                        </div>
+                        <!-- Zutatenliste -->
+                        <ul class="list-group" id="zutaten-liste">
+                            <li class="list-group-item zutat-zeile">
+                                <span class="zutat-menge">100</span>
+                                <span class="zutat-einheit">ml</span>
+                                <span class="zutat-name">destilliertes Mondlicht</span>
+                            </li>
+                            <li class="list-group-item zutat-zeile">
+                                <span class="zutat-menge">13</span>
+                                <span class="zutat-einheit">g</span>
+                                <span class="zutat-name">Pech</span>
+                            </li>
+                            <li class="list-group-item zutat-zeile">
+                                <span class="zutat-menge">1</span>
+                                <span class="zutat-einheit">Prise</span>
+                                <span class="zutat-name">Lebenswillen</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vorbereitung -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8 border border-secondary rounded p-4">
+                <h3>Vorbereitung</h3>
+                <div class="d-flex gap-3 mb-4">
+                    <span class="text-muted">Vorbereitungsdauer</span>
+                </div>
+                <h4>Schritt 1</h4>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                <h4>Schritt 2</h4>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </div>
+        </div>
+
+        <!-- Zubereitung -->
+        <div class="row justify-content-center">
+            <div class="col-md-8 border border-secondary rounded p-4">
+                <h3>Zubereitung</h3>
+                <div class="d-flex gap-3 mb-4">
+                    <span class="text-muted">Zubereitungsdauer</span>
+                </div>
+                <h4>Schritt 1</h4>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                <h4>Schritt 2</h4>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </div>
+        </div>
+    </div>
+    <script src="js/script-rezept.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+

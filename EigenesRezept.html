@@ -1,0 +1,172 @@
+﻿<!-- ----------------------------------------------------------------------------------------------------------------------------->
+<!-- Kochbuch-Website - Eigenes Rezept Formular                                                                                       -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------->
+<!-- Webtechnologien 2026                                                                                                       -->
+<!-- Team Brokkoli                                                                                                              -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------->
+
+
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Luzie Kübler">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rezept erstellen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg eigene_navbar fs-5 bg-light mb-4">
+            <a class="navbar-brand mx-3" href="#"><img src="img/Logo.png" class="img-fluid"
+                    alt="Logo der App mit einem Brokkoli, der in einer Pfanne gegart wird"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="Rezepte.html">Rezepte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Einkaufsliste.html">Einkaufsliste</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="EigenesRezept.html">Rezept erstellen</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header py-3">
+                        <h2 class="mb-0">Eigenes Rezept erstellen</h2>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="json-import-zeile mb-4">
+                            <!--<span class="text-muted small">Vorhandenes Rezept laden:</span> -->
+                            <input type="file" class="d-none" id="rezept-json-datei" accept=".json,application/json">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="rezept-json-laden">
+                                Rezept hochladen
+                            </button>
+                        </div>
+
+                        <form id="rezept-formular">
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <label class="form-label" for="titel">Titel</label>
+                                    <input type="text" class="form-control" id="titel" required>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label" for="portionen">Portionen</label>
+                                    <input type="number" class="form-control" id="portionen" min="1" value="4" required>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label" for="kategorie">Kategorie</label>
+                                    <input type="text" class="form-control" id="kategorie" required>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label" for="schwierigkeit">Schwierigkeitsgrad</label>
+                                    <select class="form-control" id="schwierigkeit" required>
+                                        <option value="einfach">einfach</option>
+                                        <option value="mittel">mittel</option>
+                                        <option value="schwer">schwer</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label" for="bild-datei">Rezeptbild</label>
+                                    <div class="bild-upload" id="bild-upload-bereich">
+                                        <input type="file" class="d-none" id="bild-datei" accept="image/*">
+                                        <div class="bild-upload-hinweis" id="bild-upload-hinweis">
+                                            Bild hier ablegen oder klicken zum Auswählen
+                                        </div>
+                                        <img src="" alt="Vorschau des ausgewählten Rezeptbildes" class="bild-vorschau d-none" id="bild-vorschau">
+                                        <button type="button" class="btn btn-sm btn-rot mt-2 d-none" id="bild-entfernen">
+                                            Bild entfernen
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label" for="vorbereitung-min">Vorbereitungsdauer in Minuten</label>
+                                    <input type="number" class="form-control" id="vorbereitung-min" min="0" value="0">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label" for="kochen-min">Zubereitungsdauer in Minuten</label>
+                                    <input type="number" class="form-control" id="kochen-min" min="0" value="0">
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="mb-0">Zutaten</h4>
+                                <button type="button" class="btn btn-sm btn-gruen" id="zutat-hinzufuegen">+ Zutat</button>
+                            </div>
+
+                            <div id="zutaten-container"></div>
+
+                            <hr class="my-4">
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="mb-0">Vorbereitung</h4>
+                                <button type="button" class="btn btn-sm btn-gruen" id="vorbereitung-hinzufuegen">
+                                    + Schritt
+                                </button>
+                            </div>
+
+                            <div id="vorbereitung-container"></div>
+
+                            <hr class="my-4">
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="mb-0">Zubereitung</h4>
+                                <button type="button" class="btn btn-sm btn-gruen" id="zubereitung-hinzufuegen">
+                                    + Schritt
+                                </button>
+                            </div>
+
+                            <div id="zubereitung-container"></div>
+
+                            <div class="row g-2 mt-4">
+                                <div class="col-md-8">
+                                    <button type="submit" class="btn btn-gruen w-100">Rezept an API senden</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-outline-secondary w-100" id="rezept-json-speichern">
+                                        JSON herunterladen
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mt-3" id="formular-meldung"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/script-eigenesrezept.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+
