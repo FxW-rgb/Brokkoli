@@ -1,10 +1,10 @@
-﻿<!-- ----------------------------------------------------------------------------------------------------------------------------->
-<!-- Kochbuch-Website - Rezepte-Seite                                                                                           -->
-<!-- ----------------------------------------------------------------------------------------------------------------------------->
-<!-- Webtechnologien 2026                                                                                                       -->
-<!-- Team Brokkoli                                                                                                              -->
-<!-- ----------------------------------------------------------------------------------------------------------------------------->
-
+﻿<!-- -------------------------------------->
+<!-- Kochbuch-Website - Startseite       -->
+<!-- -------------------------------------->
+<!-- Webtechnologien 2026                -->
+<!-- Team Brokkoli                       -->
+<!-- -------------------------------------->
+ 
 <!DOCTYPE html>
 <html lang="de">
 
@@ -19,14 +19,13 @@
 </head>
 
 <body>
-
-    <!-- Header mit Navbar samt Logo -->
+<!-- Header mit Navbar samt Logo -->
     <header>
         <nav class="navbar navbar-expand-lg eigene_navbar fs-5 bg-light mb-4">
             <a class="navbar-brand mx-3" href="#"><img src="img/Logo.png" class="img-fluid"
                     alt="Logo der App mit einem Brokkoli, der in einer Pfanne gegart wird"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Navigation ein- oder ausblenden">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -48,8 +47,8 @@
 
 
     <main>
+<!-- Suchleiste -->
         <h1 class="visually-hidden">Rezepte suchen und filtern</h1>
-        <!-- Suchleiste -->
         <div class="greenbanner">
             <div class="container">
                 <div class="search-container">
@@ -63,7 +62,7 @@
             </div>
         </div>
 
-        <!-- Filter -->
+<!-- Filter -->
         <div style="background-color: var(--hintergrund-hellgruen); padding: 10px;">
             <div class="container">
                 <div class="filter-container">
@@ -74,7 +73,6 @@
                             <option value="Frühstück">Frühstück</option>
                             <option value="Vorspeise">Vorspeise</option>
                             <option value="Hauptgericht">Hauptgericht</option>
-                            <option value="Beilage">Beilage</option>
                             <option value="Dessert">Dessert</option>
                             <option value="Sonstiges">Sonstiges</option>
                         </select>
@@ -102,8 +100,13 @@
 
 
 
-    <!-- Bilderreihe an Rezepten -->
+<!-- Rezeptliste -->
         <div id="statusmeldung" class="visually-hidden" aria-live="polite"></div>
+        <div class="container">
+            <div id="nulltreffer-meldung" class="alert alert-info text-center my-4 d-none" role="status">
+                Keine Rezepte gefunden. Bitte passe die Suche oder die Filter an.
+            </div>
+        </div>
         <div class="container">
             <div class="row" id="rezepteListe">
                 <div class="col-12 text-center my-5">

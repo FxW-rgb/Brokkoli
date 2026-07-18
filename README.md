@@ -6,11 +6,10 @@ Im Mittelpunkt stehen eine Rezeptübersicht mit Such- und Filterfunktionen, eine
 ## Projektstruktur
 
 ```text
-V9/
 ├── EigenesRezept.html
 ├── Einkaufsliste.html
 ├── Rezept.html
-├── Rezepte.html
+├── index.html
 ├── css/
 │   └── style.css
 ├── img/
@@ -34,7 +33,6 @@ V9/
 Die Start- bzw. Übersichtsseite `index.html` lädt Rezepte aus der externen Rezept-API und stellt sie als Karten mit Bild, Titel und Kurzinformationen dar. Nutzende können die angezeigten Rezepte durchsuchen und nach verschiedenen Eigenschaften filtern.
 
 Vorhandene Filter:
-
 - Kategorie
 - Landesküche
 - Schwierigkeitsgrad
@@ -49,7 +47,6 @@ Diese Seite zeigt ein einzelnes Rezept an. Die ID des Rezeptes wird über die UR
 Die Seite lädt die passenden Rezeptdaten und zeigt Zutaten sowie Schritte an.
 
 Angezeigt werden unter anderem:
-
 - Rezepttitel
 - Kategorie
 - Gesamtzeit
@@ -71,7 +68,6 @@ Gleiche Zutaten mit gleicher Einheit werden zusammengefasst, sofern die Mengen b
 ### `EigenesRezept.html`
 
 Die Seite `EigenesRezept.html` bietet ein Formular zum Erstellen eigener Rezepte. Erfasst werden können:
-
 - Titel
 - Portionen
 - Kategorie
@@ -114,7 +110,6 @@ Dieses Skript steuert das Formular fuer eigene Rezepte. Es erzeugt dynamische Fo
 Das Layout basiert auf Bootstrap 5.3.8 und wird durch eigene CSS-Regeln in `css/style.css` erweitert. Die Gestaltung verwendet eine warme, helle Farbpalette mit Grün- und Beigetönen, und greift damit die Farben aus dem Titelbild auf.
 
 Umgesetzt sind unter anderem:
-
 - gemeinsame Navigationsleiste auf allen Seiten
 - responsive Bootstrap-Grid-Strukturen
 - Rezeptkarten mit Bild, Overlay und Badges
@@ -125,7 +120,6 @@ Umgesetzt sind unter anderem:
 ## Barrierefreiheit
 
 Das Projekt enthält mehrere Massnahmen zur besseren Zugänglichkeit:
-
 - deutsche Sprachangabe ueber `lang="de"`
 - Viewport-Meta-Tag für korrekte Darstellung auf mobilen Geräten
 - semantische Hauptbereiche mit `main`
@@ -149,17 +143,41 @@ Die Einkaufsliste wird lokal im Browser gespeichert:
 localStorage["einkaufsliste"]
 ```
 
-Eigene Rezepte können zusätzlich als JSON-Datei exportiert und später wieder importiert werden.
+Die Einkaufsliste und auch die eigenen Rezepte können zusätzlich als JSON-Datei exportiert und eigene Rezepte im JSON Format auch importiert werden.
+
+### Schreibzugriff und Bearbeitungsmodus
+
+Beim Anlegen und Bearbeiten eines Rezepts fragt ein gestalteter Dialog den API-Key ab. Der Schlüssel wird nur im Header `X-API-Key` der aktuellen Anfrage verwendet und nicht gespeichert. Neue Rezepte werden mit `POST`, bestehende Rezepte über `EigenesRezept.html?id=<Rezept-ID>` mit `PATCH` übertragen. Bei Abbruch oder Fehler bleiben die Formulardaten erhalten und können als JSON heruntergeladen werden.
+
+Der getrennte Bild-Upload ist im Formularskript bereits vor dem Rezept-Request vorbereitet, bleibt aber auskommentiert, bis das Backend einen Bild-Endpunkt bereitstellt. Aktuell wird nur das Rezept übertragen.
 
 ## Nutzung
 
-Die Website kann direkt im Browser geöffnet werden. Der Einstieg erfolgt über:
+Die Website sollte über einen lokalen Webserver gestartet werden. Das ist zuverlässiger als das direkte Öffnen von `index.html` über eine `file://`-Adresse und vermeidet Browserbeschränkungen bei Webanfragen.
+
+### Lokalen Webserver starten
+
+Im Terminal zunächst in den Projektordner wechseln und anschließend einen der folgenden Befehle ausführen.
+
+Mit Python:
 
 ```text
-index.html
+python -m http.server 5500
 ```
 
-Für die API-basierten Funktionen wird eine Internetverbindung benötigt. Dazu gehören insbesondere das Laden der Rezeptübersicht, das Anzeigen einzelner Rezeptdetails und das dynamische Befüllen der Filterdaten.
+Alternativ mit der Python-3-Bezeichnung:
+
+```text
+python3 -m http.server 5500
+```
+
+Danach die Anwendung im Browser öffnen:
+
+```text
+http://localhost:5500/index.html
+```
+
+Der Server kann im Terminal mit `Strg+C` beendet werden. Für die API-basierten Funktionen wird zusätzlich eine Internetverbindung benötigt. Dazu gehören insbesondere das Laden der Rezeptübersicht, das Anzeigen einzelner Rezeptdetails und das dynamische Befüllen der Filterdaten.
 
 ## Verwendete Technologien
 
@@ -173,10 +191,10 @@ Für die API-basierten Funktionen wird eine Internetverbindung benötigt. Dazu g
 
 ## Hinweise zur Weiterentwicklung
 
-Mögliche nächste Schritte wären:
 
 
 
 ## Projektkontext
 
 Das Projekt wurde im Rahmen eines universitären Webtechnologien-Kontextes entwickelt. Ziel war es, eine mehrseitige, interaktive Webanwendung mit HTML, CSS und JavaScript umzusetzen und dabei externe Daten, dynamische Oberflaechen, Formularverarbeitung und lokale Speicherung sinnvoll miteinander zu verbinden.
+Die zusammengefasste Einkaufsliste kann außerdem über „JSON speichern“ als lokale JSON-Datei exportiert werden.

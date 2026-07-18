@@ -1,9 +1,9 @@
-﻿<!-- ----------------------------------------------------------------------------------------------------------------------------->
-<!-- Kochbuch-Website - Rezept-Template                                                                                         -->
-<!-- ----------------------------------------------------------------------------------------------------------------------------->
-<!-- Webtechnologien 2026                                                                                                       -->
-<!-- Team Brokkoli                                                                                                              -->
-<!-- ----------------------------------------------------------------------------------------------------------------------------->
+﻿<!-- -------------------------------------->
+<!-- Kochbuch-Website - Rezept-Template  -->
+<!-- -------------------------------------->
+<!-- Webtechnologien 2026                -->
+<!-- Team Brokkoli                       -->
+<!-- -------------------------------------->
 
 <!DOCTYPE html>
 <html lang="de">
@@ -19,13 +19,13 @@
 </head>
 
 <body>
-    <!-- Header mit Navbar samt Logo -->
+<!-- Header mit Navbar samt Logo -->
     <header>
         <nav class="navbar navbar-expand-lg eigene_navbar fs-5 bg-light mb-4">
             <a class="navbar-brand mx-3" href="#"><img src="img/Logo.png" class="img-fluid"
                     alt="Logo der App mit einem Brokkoli, der in einer Pfanne gegart wird"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Navigation ein- oder ausblenden">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -45,12 +45,13 @@
         </nav>
     </header>
 
-    <!-- Hauptinhalt - Haben wir hier als Platzhalter drin gelassen, wird aber später durch ein innerHTML von JavaScript ersetzt -->
-    <div class="container py-3" id="rezeptInhalt">
-        <!-- Rezepttitel -->
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <h1 class="my-2">Rezepttitel</h1>
+    <main>
+<!-- Hauptinhalt - Platzhalter wird aber später durch ein innerHTML von JavaScript ersetzt -->
+        <div class="container py-3" id="rezeptInhalt">
+    <!-- Rezepttitel -->
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h1 class="my-2">Rezepttitel</h1>
                 <div class="d-flex gap-3 mb-4">
                     <span class="text-muted">Kategorie</span>
                     <span class="text-muted">·</span>
@@ -61,7 +62,7 @@
             </div>
         </div>
 
-        <!-- Ansicht + Zutaten -->
+    <!-- Ansicht + Zutaten -->
         <div class="row justify-content-center mb-4">
             <div class="col-md-8 border border-secondary rounded g-0">
                 <div class="row align-items-center">
@@ -72,7 +73,7 @@
                         <!-- Kopfzeile: Zutaten + Button -->
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h3 class="mb-0">Zutaten</h3>
-                            <button type="button" class="btn btn-sm btn-gruen" id="aufeinkaufsliste">
+                            <button type="button" class="btn btn-sm btn-gruen" id="aufeinkaufsliste" aria-label="Zutaten dieses Rezepts zur Einkaufsliste hinzufügen">
                                 + Einkaufsliste
                             </button>
                         </div>
@@ -105,7 +106,7 @@
             </div>
         </div>
 
-        <!-- Vorbereitung -->
+    <!-- Vorbereitung -->
         <div class="row justify-content-center mb-4">
             <div class="col-md-8 border border-secondary rounded p-4">
                 <h3>Vorbereitung</h3>
@@ -129,7 +130,7 @@
             </div>
         </div>
 
-        <!-- Zubereitung -->
+    <!-- Zubereitung -->
         <div class="row justify-content-center">
             <div class="col-md-8 border border-secondary rounded p-4">
                 <h3>Zubereitung</h3>
@@ -153,7 +154,23 @@
             </div>
         </div>
     </div>
-    <script src="js/script-rezept.js"></script>
+
+<!-- Rückmeldung nach dem Übertragen der Zutaten. -->
+    <div class="modal fade" id="einkaufsliste-erfolg-dialog" tabindex="-1" aria-labelledby="einkaufsliste-erfolg-titel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content eigener-dialog">
+                <div class="modal-header"><h2 class="modal-title fs-5" id="einkaufsliste-erfolg-titel">Einkaufsliste aktualisiert</h2></div>
+                <div class="modal-body">Die Zutaten wurden zur Einkaufsliste hinzugefügt.</div>
+                <div class="modal-footer"><button type="button" class="btn btn-gruen" data-bs-dismiss="modal" aria-label="Bestätigung schließen">OK</button></div>
+            </div>
+        </div>
+    </div>
+
+    </main>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script-rezept.js"></script>
 </body>
+
 </html>
+

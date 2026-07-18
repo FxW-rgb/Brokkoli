@@ -41,6 +41,10 @@ body {
 
 
 /* Buttons */
+.btn {
+    font-size: 0.8rem;
+}
+
 .btn-gruen {
     background-color: var(--button-gruen);
     color: var(--hintergrund-hell);
@@ -63,6 +67,19 @@ body {
 .btn-rot:hover {
     background-color: var(--button-rot-hoover);
     color: var(--hintergrund-hell);
+}
+
+/* Einheitliche Dialogfenster im Farbschema der Website */
+.eigener-dialog {
+    color: var(--schrift-standard);
+    background-color: var(--hintergrund-hell);
+    border: 2px solid var(--begrenzungen);
+}
+
+.eigener-dialog .modal-header,
+.eigener-dialog .modal-footer {
+    background-color: var(--hintergrund-dunkel);
+    border-color: rgba(19, 65, 62, 0.25);
 }
 
 /* Navigationsleiste */

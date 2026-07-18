@@ -4,6 +4,8 @@
 //Auch wird beim Klick auf jeden Kasten auf die Rezeptdetailansicht der jeweiligen Rezept ID weiterverlinkt. 
 //Das ist dann wichtig, um die Rezeptdetailseite mit den richtigen Infos aus der API zu füllen.
 const alleRezepte = [];
+const statusmeldung = document.getElementById("statusmeldung");
+const nulltrefferMeldung = document.getElementById("nulltreffer-meldung");
 
 function einlesen(url) {
     fetch(url)
@@ -35,6 +37,8 @@ function einlesen(url) {
             });
             if (daten.next) {
                 einlesen(daten.next)
+            } else {
+                statusmeldung.textContent = `${alleRezepte.length} Rezepte wurden geladen.`;
             };
         })
         .catch(fehler => {
@@ -50,6 +54,7 @@ function einlesen(url) {
                     </div>
                 </div>
             `;
+            statusmeldung.textContent = "Die Rezepte konnten nicht geladen werden.";
         });
 }
 
@@ -147,6 +152,7 @@ function filternUndAnzeigen() {
     return passtKategorie && passtKueche && passtSuche && passtSchwierigkeit;
     });
     liste.innerHTML = "";
+    nulltrefferMeldung.classList.toggle("d-none", gefiltert.length !== 0);
     gefiltert.forEach(rezept => {
         const kasten = `
     <div class="col-md-4 col-sm-6 my-4 mb-4">
@@ -165,6 +171,7 @@ function filternUndAnzeigen() {
         `;
         liste.innerHTML += kasten;
     });
+    statusmeldung.textContent = `${gefiltert.length} Rezepte entsprechen der aktuellen Auswahl.`;
 }
 
 filterKategorie.addEventListener("change", filternUndAnzeigen);
