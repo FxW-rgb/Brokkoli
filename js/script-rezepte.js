@@ -182,13 +182,14 @@ suchbegriff.addEventListener("input", filternUndAnzeigen);
 // Tutorial für Rezeptseite starten
 document.getElementById("start-tutorial-btn-index").addEventListener("click", () => {
     introJs().setOptions({
-        nextLabel: 'Weiter',
-        prevLabel: 'Zurück',
-        doneLabel: 'Los geht´s!',
-        dontShowAgain: false,
-        scrollToElement: true,
-    
-    })
+    nextLabel: 'Weiter',
+    prevLabel: 'Zurück',
+    doneLabel: 'Fertig!',
+    dontShowAgain: false,
+    scrollToElement: true,
+    scrollTo: 'tooltip',
+    scrollPadding: 30
+})
     .oncomplete(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     })
