@@ -3,6 +3,26 @@
 Die Kochbuch-Website ist eine browserbasierte Webanwendung zum Suchen, Anzeigen und Erstellen von Rezepten. Sie wurde als Uni-Projekt im Rahmen des Moduls Webtechnologien 2026 umgesetzt und verbindet klassische HTML-Seiten mit Bootstrap, eigenem CSS und JavaScript-Funktionalität.
 Im Mittelpunkt stehen eine Rezeptübersicht mit Such- und Filterfunktionen, eine Detailansicht einzelner Rezepte, eine Einkaufsliste sowie ein Formular zum Erstellen eigener Rezepte.
 
+## Nutzung
+
+Die Website kann entweder über die Github Adresse https://fxw-rgb.github.io/Brokkoli/index.html aufgerufen werden, oder aus dem Repository geladen und lokal betrieben werden.
+Hinweis: Bei lokalem Betrieb sollte die Seite über einen lokalen Webserver gestartet werden. Dazu im Terminal zunächst in den Projektordner wechseln und anschließend mit ```text python -m http.server 5500 ``` oder ```text python3 -m http.server 5500``` den Server initialisieren und die Anwendung mit ```text http://localhost:5500/index.html``` öffnen. Der Server kann im Terminal mit `Strg+C` beendet werden. 
+Hinweis: Für die API-basierten Funktionen wird zusätzlich eine Internetverbindung benötigt. Dazu gehören insbesondere das Laden der Rezeptübersicht, das Anzeigen einzelner Rezeptdetails und das dynamische Befüllen der Filterdaten.
+Hinweis: Da es sich um ein Uni-Projekt handelt, ist das Backend zugriffsbeschränkt. Beim Anlegen und Bearbeiten eines Rezepts wird der API-Key abgefragt. Der Schlüssel wird nur im Header `X-API-Key` der aktuellen Anfrage verwendet und nicht gespeichert. 
+
+## Hilfe & Tutorial
+Bei erstmaliger Nutzung oder Verständnisfragen kann über das Fragezeichen-Symbol das Tutorial gestartet werden, das jeweils durch die Grundfunktionen der entsprechenden Seiten führt. Das Tutrial kann entweder vollständig durchlaufen, oder an beliebiger Stelle abgebrochen werden.
+
+## Verwendete Technologien
+
+- HTML5
+- CSS3
+- JavaScript
+- Bootstrap 5.3.8
+- Browser `localStorage`
+- externe Rezept-API der Digital-Humanities-Rezeptdatenbank
+
+
 ## Projektstruktur
 
 ```text
@@ -137,61 +157,13 @@ Die Rezeptübersicht und Rezeptdetailseiten verwenden die API:
 https://recipes.digitalhumanities.io/api/rezepte/
 ```
 
-Die Einkaufsliste wird lokal im Browser gespeichert:
+Hinweis: Neue Rezepte werden mit `POST`, bestehende Rezepte über `EigenesRezept.html?id=<Rezept-ID>` mit `PATCH` übertragen. Bei Abbruch oder Fehler bleiben die Formulardaten erhalten und können als JSON heruntergeladen werden. Der getrennte Bild-Upload ist im Formularskript bereits vor dem Rezept-Request vorbereitet, bleibt aber auskommentiert, bis das Backend einen Bild-Endpunkt bereitstellt. Aktuell wird nur das Rezept übertragen.
+
+Die Einkaufsliste wird lokal im Browser gespeichert und kann ebenso wie die eigenen Rezepte zusätzlich als JSON-Datei exportiert werden.
 
 ```text
 localStorage["einkaufsliste"]
 ```
-
-Die Einkaufsliste und auch die eigenen Rezepte können zusätzlich als JSON-Datei exportiert und eigene Rezepte im JSON Format auch importiert werden.
-
-### Schreibzugriff und Bearbeitungsmodus
-
-Beim Anlegen und Bearbeiten eines Rezepts fragt ein gestalteter Dialog den API-Key ab. Der Schlüssel wird nur im Header `X-API-Key` der aktuellen Anfrage verwendet und nicht gespeichert. Neue Rezepte werden mit `POST`, bestehende Rezepte über `EigenesRezept.html?id=<Rezept-ID>` mit `PATCH` übertragen. Bei Abbruch oder Fehler bleiben die Formulardaten erhalten und können als JSON heruntergeladen werden.
-
-Der getrennte Bild-Upload ist im Formularskript bereits vor dem Rezept-Request vorbereitet, bleibt aber auskommentiert, bis das Backend einen Bild-Endpunkt bereitstellt. Aktuell wird nur das Rezept übertragen.
-
-## Nutzung
-
-Die Website sollte über einen lokalen Webserver gestartet werden. Das ist zuverlässiger als das direkte Öffnen von `index.html` über eine `file://`-Adresse und vermeidet Browserbeschränkungen bei Webanfragen.
-
-### Lokalen Webserver starten
-
-Im Terminal zunächst in den Projektordner wechseln und anschließend einen der folgenden Befehle ausführen.
-
-Mit Python:
-
-```text
-python -m http.server 5500
-```
-
-Alternativ mit der Python-3-Bezeichnung:
-
-```text
-python3 -m http.server 5500
-```
-
-Danach die Anwendung im Browser öffnen:
-
-```text
-http://localhost:5500/index.html
-```
-
-Der Server kann im Terminal mit `Strg+C` beendet werden. Für die API-basierten Funktionen wird zusätzlich eine Internetverbindung benötigt. Dazu gehören insbesondere das Laden der Rezeptübersicht, das Anzeigen einzelner Rezeptdetails und das dynamische Befüllen der Filterdaten.
-
-## Verwendete Technologien
-
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap 5.3.8
-- Browser `localStorage`
-- Fetch API
-- externe Rezept-API der Digital-Humanities-Rezeptdatenbank
-
-## Hinweise zur Weiterentwicklung
-
-
 
 
 ## Projektkontext
