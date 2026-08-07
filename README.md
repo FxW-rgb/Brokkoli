@@ -4,14 +4,22 @@ Die Kochbuch-Website ist eine browserbasierte Webanwendung zum Suchen, Anzeigen 
 Im Mittelpunkt stehen eine Rezeptübersicht mit Such- und Filterfunktionen, eine Detailansicht einzelner Rezepte, eine Einkaufsliste sowie ein Formular zum Erstellen eigener Rezepte.
 
 ## Nutzung
-
+### Technische Voraussetzungen
 Die Website kann entweder über die Github Adresse https://fxw-rgb.github.io/Brokkoli/index.html aufgerufen werden, oder aus dem Repository geladen und lokal betrieben werden.
-Hinweis: Bei lokalem Betrieb sollte die Seite über einen lokalen Webserver gestartet werden. Dazu im Terminal zunächst in den Projektordner wechseln und anschließend mit ```text python -m http.server 5500 ``` oder ```text python3 -m http.server 5500``` den Server initialisieren und die Anwendung mit ```text http://localhost:5500/index.html``` öffnen. Der Server kann im Terminal mit `Strg+C` beendet werden. 
-Hinweis: Für die API-basierten Funktionen wird zusätzlich eine Internetverbindung benötigt. Dazu gehören insbesondere das Laden der Rezeptübersicht, das Anzeigen einzelner Rezeptdetails und das dynamische Befüllen der Filterdaten.
+Hinweis: Bei lokalem Betrieb sollte die Seite über einen lokalen Webserver gestartet werden. Dazu im Terminal zunächst in den Projektordner wechseln und anschließend mit ```text python -m http.server 5500 ``` oder ```text python3 -m http.server 5500``` den Server initialisieren und die Anwendung mit ```text http://localhost:5500/index.html``` öffnen. Der Server kann im Terminal mit `Strg+C` beendet werden.
+
+Für die API-basierten Funktionen wird zusätzlich eine Internetverbindung benötigt. Dazu gehören insbesondere das Laden der Rezeptübersicht, das Anzeigen einzelner Rezeptdetails und das dynamische Befüllen der Filterdaten.
+
 Hinweis: Da es sich um ein Uni-Projekt handelt, ist das Backend zugriffsbeschränkt. Beim Anlegen und Bearbeiten eines Rezepts wird der API-Key abgefragt. Der Schlüssel wird nur im Header `X-API-Key` der aktuellen Anfrage verwendet und nicht gespeichert. 
 
+### Anleitung & Funktionsüberblick
+Die Kochbuchwebsite bietet die Möglichkeit auf der Startseite alle Rezepte aus der Datenbank abzurufen und anzuzeigen. Dazu können die Rezepte über die Filter nach Kategorie, Landesküche und Schwierigkeit eingeschränkt wund nach Titel durchsucht werden.
+Die einzelnen Rezepte sind übersichtlich nach benötigten Zutaten, Vorbereitungsschritten und Zubereitungsschritten gegliedert. Die Zutatenliste kann je nach erforderlicher Portionsanzahl automatisch angepasst und mit einem Klick auf die Einkaufliste übertragen werden. Auch eine inhaltliche Überarbeitung des Rezptes ist über den Button "Rezept bearbeiten" möglich.
+Die Einkaufliste ermöglicht neben der direkten Übertragung von Zutaten aus den Rezepten auch manuelle Ergänzungen. Wiederholt vorkommende Zutaten werden bei gleicher Einheit zusammengefasst. Die Einkaufsliste kann als JSON exportiert werden. Einzelne Zutaten können ebenso wie die gesamte Liste durchgestrichen ("gekauft") oder entfernt ("löschen") werden.
+Eigene Rezepte können erstellt und der Datenbank hinzugefügt werden.
+
 ## Hilfe & Tutorial
-Bei erstmaliger Nutzung oder Verständnisfragen kann über das Fragezeichen-Symbol das Tutorial gestartet werden, das jeweils durch die Grundfunktionen der entsprechenden Seiten führt. Das Tutrial kann entweder vollständig durchlaufen, oder an beliebiger Stelle abgebrochen werden.
+Bei erstmaliger Nutzung oder Verständnisfragen kann über das Fragezeichen-Symbol jederzeit ein Tutorial gestartet werden, das durch die Grundfunktionen der jeweiligen Seite führt. Das Tutrial kann entweder vollständig durchlaufen, oder an beliebiger Stelle abgebrochen werden.
 
 ## Verwendete Technologien
 
