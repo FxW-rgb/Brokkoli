@@ -451,8 +451,9 @@ async function rezeptSendenNachBestaetigung() {
     } catch (fehler) {
         console.error("Fehler beim Speichern in der API:", fehler);
         apiKeyFehler.textContent = fehler instanceof TypeError
-            ? "Der API-Server ist nicht erreichbar. Prüfe deine Internetverbindung und versuche es erneut."
+            ? "Die Anfrage konnte nicht gesendet werden. Der API-Server ist möglicherweise nicht erreichbar oder blockiert die Anfrage aufgrund seiner CORS-Einstellungen."
             : (fehler.message || "Beim API-Aufruf ist ein unbekannter Fehler aufgetreten.");
+
         apiKeyFehler.classList.remove("d-none");
     } finally {
         apiKeyBestaetigenButton.disabled = false;
@@ -615,3 +616,21 @@ function seiteInitialisieren() {
 }
 
 seiteInitialisieren();
+
+/* Tutorial für eigenes Rezept starten */
+document.getElementById("start-tutorial-btn").addEventListener("click", () => {
+    introJs().setOptions({
+        nextLabel: 'Weiter',
+        prevLabel: 'Zurück',
+        doneLabel: 'Fertig!',
+        dontShowAgain: false,
+        scrollToElement: true
+    })
+        .oncomplete(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .onexit(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .start();
+});

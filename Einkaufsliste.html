@@ -15,13 +15,19 @@
     <title>Einkaufsliste</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Intro.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 <!-- Header mit Navbar samt Logo -->
     <header>
-        <nav class="navbar navbar-expand-lg eigene_navbar fs-5 bg-light mb-4">
+        <nav class="navbar navbar-expand-lg eigene_navbar fs-5 bg-light mb-4"
+             data-title="Navigation" 
+             data-intro="Hier kannst du wieder zurück zu den Rezepten wechseln oder neue erstellen." 
+             data-step="1"
+             data-tooltip-class="erster-schritt-tooltip">
             <a class="navbar-brand mx-3" href="#"><img src="img/Logo.png" class="img-fluid"
                     alt="Logo der App mit einem Brokkoli, der in einer Pfanne gegart wird"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -52,20 +58,30 @@
 
                 <div class="card shadow-sm">
 
-    <!-- Einkaufszettel-Kopfzeile mit Buttons "alles gekauft", "alles löschen" und "JSON speichern" -->
+    <!-- Einkaufszettel-Kopfzeile mit Buttons -->
                     <div class="card-header d-flex justify-content-between align-items-center py-3">
-                        <!-- Titel -->
                         <h2 class="mb-0">Einkaufsliste</h2>
-                        <!-- Button-->
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-sm btn-gruen" id="allesgekauft" aria-label="Alle Zutaten auf der Einkaufsliste als gekauft markieren">
-                                Alles gekauft
-                            </button>
-                            <button class="btn btn-sm btn-rot" id="allesloeschen" aria-label="Alle Zutaten von der Einkaufsliste löschen">
-                                Alles löschen
-                            </button>
-                            <button class="btn btn-sm btn-outline-secondary" id="einkaufsliste-json-speichern" aria-label="Einkaufsliste als JSON-Datei speichern">
-                                JSON speichern
+                        
+                        <div class="d-flex align-items-center gap-2">
+                            <!-- Aktions-Buttons -->
+                            <div class="btn-group" role="group"
+                                 data-title="Listen-Aktionen"
+                                 data-intro="Hake alle Einträge gleichzeitig als gekauft ab, leere die Liste oder sichere sie als JSON-Datei."
+                                 data-step="4">
+                                <button class="btn btn-sm btn-gruen" id="allesgekauft" aria-label="Alle Zutaten auf der Einkaufsliste als gekauft markieren">
+                                    Alles gekauft
+                                </button>
+                                <button class="btn btn-sm btn-rot" id="allesloeschen" aria-label="Alle Zutaten von der Einkaufsliste löschen">
+                                    Alles löschen
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary" id="einkaufsliste-json-speichern" aria-label="Einkaufsliste als JSON-Datei speichern">
+                                    JSON speichern
+                                </button>
+                            </div>
+
+                            <!-- Fragezeichen-Button für das Tutorial -->
+                            <button type="button" id="start-tutorial-btn" class="btn btn-sm btn-gruen rounded-circle px-2 py-1 fw-bold" title="Hilfe & Tour starten" aria-label="Tutorial starten">
+                                ❔
                             </button>
                         </div>
                     </div>
@@ -73,34 +89,41 @@
     <!-- Einkaufszettel-Inhalt -->
                     <div class="card-body">
         <!-- Formulareingabe -->
-                        <h6 class="text-muted mb-3">Zur Liste hinzufügen:</h6>
-                        <div class="row g-2">
-                            <div class="col-12 col-sm-6">
-                                <label class="visually-hidden" for="zutat-input">Zutat oder Artikel</label>
-                                <input type="text" class="form-control" id="zutat-input"
-                                    placeholder="Zutat / Artikel (z.B. Zucker)">
-                            </div>
-                            <div class="col-6 col-sm-3">
-                                <label class="visually-hidden" for="menge-input">Menge</label>
-                                <input type="text" class="form-control" id="menge-input"
-                                    placeholder="Menge">
-                            </div>
-                            <div class="col-6 col-sm-3">
-                                <label class="visually-hidden" for="einheit-input">Einheit</label>
-                                <input type="text" class="form-control" id="einheit-input"
-                                    placeholder="Einheit">
-                            </div>
-                            <div class="col-12 mt-2">
-                                <button type="button" class="btn btn-gruen w-100" id="hinzufuegen-button" aria-label="Zutat zur Einkaufsliste hinzufügen">
-                                    hinzufügen
-                                </button>
+                        <div data-title="Zutat hinzufügen"
+                             data-intro="Gib hier händisch neue Zutaten samt Menge und Einheit ein, die du zusätzlich aufschreiben möchtest."
+                             data-step="2">
+                            <h6 class="text-muted mb-3">Zur Liste hinzufügen:</h6>
+                            <div class="row g-2">
+                                <div class="col-12 col-sm-6">
+                                    <label class="visually-hidden" for="zutat-input">Zutat oder Artikel</label>
+                                    <input type="text" class="form-control" id="zutat-input"
+                                        placeholder="Zutat / Artikel (z.B. Zucker)">
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <label class="visually-hidden" for="menge-input">Menge</label>
+                                    <input type="text" class="form-control" id="menge-input"
+                                        placeholder="Menge">
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <label class="visually-hidden" for="einheit-input">Einheit</label>
+                                    <input type="text" class="form-control" id="einheit-input"
+                                        placeholder="Einheit">
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <button type="button" class="btn btn-gruen w-100" id="hinzufuegen-button" aria-label="Zutat zur Einkaufsliste hinzufügen">
+                                        hinzufügen
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
                         <div id="einkaufsliste-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
 
-        <!-- Einträge - Platzhalter - werden durch JavaSkript ersetzt-->
-                        <div class="border-top mt-4 pt-4">
+        <!-- Einträge -->
+                        <div class="border-top mt-4 pt-4"
+                             data-title="Deine Einträge"
+                             data-intro="Hier siehst du deine Einkäufe. Du kannst einzelne Dinge als abgehakt markieren oder löschen."
+                             data-step="3">
                             <ul class="list-group" id="einkaufsliste">
 
                                 <li class="list-group-item listen-eintrag p-3">
@@ -157,7 +180,8 @@
         </div>
     </div>
 
-    
+    <!-- Java Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/script-einkaufsliste.js"></script>
 </body>

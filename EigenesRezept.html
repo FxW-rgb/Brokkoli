@@ -15,13 +15,19 @@
     <title>Rezept erstellen</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Intro.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-<!-- Header mit Navbar samt Logo   -->
+<!-- Header mit Navbar samt Logo -->
     <header>
-        <nav class="navbar navbar-expand-lg eigene_navbar fs-5 bg-light mb-4">
+        <nav class="navbar navbar-expand-lg eigene_navbar fs-5 bg-light mb-4"
+             data-title="Navigation" 
+             data-intro="Über die Menüleiste kannst du jederzeit wieder zur Rezeptübersicht oder zur Einkaufsliste zurückkehren." 
+             data-step="1"
+             data-tooltip-class="erster-schritt-tooltip">
             <a class="navbar-brand mx-3" href="#"><img src="img/Logo.png" class="img-fluid"
                     alt="Logo der App mit einem Brokkoli, der in einer Pfanne gegart wird"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -50,22 +56,31 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow-sm">
-                    <div class="card-header py-3">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <h2 class="mb-0" id="formular-titel">Eigenes Rezept erstellen</h2>
+                        <!-- Fragezeichen-Button für das Tutorial -->
+                        <button type="button" id="start-tutorial-btn" class="btn btn-sm btn-gruen rounded-circle px-2 py-1 fw-bold" title="Hilfe & Tour starten" aria-label="Tutorial starten">
+                            ❔
+                        </button>
                     </div>
 
     <!-- Eigenes Rezept importieren (JSON) -->
                     <div class="card-body">
                         <div class="json-import-zeile mb-4">
                             <input type="file" class="d-none" id="rezept-json-datei" accept=".json,application/json">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" id="rezept-json-laden" aria-label="Rezept aus einer JSON-Datei laden">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="rezept-json-laden" aria-label="Rezept aus einer JSON-Datei laden" data-title="Rezept-Import"
+                             data-intro="Du hast bereits ein gespeichertes Rezept als JSON-Datei? Lade es hier hoch, um das Formular automatisch auszufüllen."
+                             data-step="2">
                                 Rezept hochladen
                             </button>
                         </div>
 
     <!-- Eigenes Rezept eingeben -->                    
                         <form id="rezept-formular">
-                            <div class="row g-3">
+                            <div class="row g-3"
+                                 data-title="Basisdaten"
+                                 data-intro="Trage hier Titel, Portionen, Kategorien, Bild sowie die Zubereitungszeiten ein."
+                                 data-step="3">
                                 <!-- Titel -->
                                 <div class="col-md-8">
                                     <label class="form-label" for="titel">Titel</label>
@@ -136,37 +151,45 @@
 
                             <hr class="my-4">
 
-                            <!-- Zutaten-Bereich mit Button und Container (wird dynamisch erweitert) -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="mb-0">Zutaten</h4>
-                                <button type="button" class="btn btn-sm btn-gruen" id="zutat-hinzufuegen" aria-label="Weitere Zutat hinzufügen">+ Zutat</button>
+                            <!-- Zutaten & Schritte -->
+                            <div data-title="Zutaten & Schritte"
+                                 data-intro="Über die grünen Buttons kannst du dynamisch neue Zutaten, Vorbereitungsschritte und Zubereitungsschritte hinzufügen."
+                                 data-step="4">
+                                <!-- Zutaten-Bereich -->
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="mb-0">Zutaten</h4>
+                                    <button type="button" class="btn btn-sm btn-gruen" id="zutat-hinzufuegen" aria-label="Weitere Zutat hinzufügen">+ Zutat</button>
+                                </div>
+                                <div id="zutaten-container"></div>
+
+                                <hr class="my-4">
+
+                                <!-- Vorbereitungs-Bereich -->
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="mb-0">Vorbereitung</h4>
+                                    <button type="button" class="btn btn-sm btn-gruen" id="vorbereitung-hinzufuegen" aria-label="Weiteren Vorbereitungsschritt hinzufügen">
+                                        + Schritt
+                                    </button>
+                                </div>
+                                <div id="vorbereitung-container"></div>
+
+                                <hr class="my-4">
+
+                                <!-- Zubereitungs-Bereich -->
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="mb-0">Zubereitung</h4>
+                                    <button type="button" class="btn btn-sm btn-gruen" id="zubereitung-hinzufuegen" aria-label="Weiteren Zubereitungsschritt hinzufügen">
+                                        + Schritt
+                                    </button>
+                                </div>
+                                <div id="zubereitung-container"></div>
                             </div>
-                            <div id="zutaten-container"></div>
-
-                            <hr class="my-4">
-
-                            <!-- Vorbereitungs-Bereich mit Button und Container (wird dynamisch erweitert) -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="mb-0">Vorbereitung</h4>
-                                <button type="button" class="btn btn-sm btn-gruen" id="vorbereitung-hinzufuegen" aria-label="Weiteren Vorbereitungsschritt hinzufügen">
-                                    + Schritt
-                                </button>
-                            </div>
-                            <div id="vorbereitung-container"></div>
-
-                            <hr class="my-4">
-
-                            <!-- Zubereitungs-Bereich mit Button und Container (wird dynamisch erweitert) -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="mb-0">Zubereitung</h4>
-                                <button type="button" class="btn btn-sm btn-gruen" id="zubereitung-hinzufuegen" aria-label="Weiteren Zubereitungsschritt hinzufügen">
-                                    + Schritt
-                                </button>
-                            </div>
-                            <div id="zubereitung-container"></div>
 
     <!-- Eigenes Rezept senden oder speichern -->
-                            <div class="row g-2 mt-4">
+                            <div class="row g-2 mt-4"
+                                 data-title="Speichern & Senden"
+                                 data-intro="Lade dein Rezept lokal als JSON-Datei herunter oder sende es direkt per API an die Online-Datenbank."
+                                 data-step="5">
                                 <div class="col-md-8">
                                     <button type="submit" class="btn btn-gruen w-100 h-100" id="rezept-api-senden" aria-label="Rezept an die API senden">Rezept an API senden</button>
                                 </div>
@@ -207,6 +230,8 @@
         </div>
     </div>
 
+    <!-- Java Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/script-eigenesrezept.js"></script>
 </body>

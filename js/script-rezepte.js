@@ -178,3 +178,22 @@ filterKategorie.addEventListener("change", filternUndAnzeigen);
 filterKueche.addEventListener("change", filternUndAnzeigen);
 filterSchwierigkeit.addEventListener("change", filternUndAnzeigen);
 suchbegriff.addEventListener("input", filternUndAnzeigen);
+
+// Tutorial für Rezeptseite starten
+document.getElementById("start-tutorial-btn-index").addEventListener("click", () => {
+    introJs().setOptions({
+        nextLabel: 'Weiter',
+        prevLabel: 'Zurück',
+        doneLabel: 'Los geht´s!',
+        dontShowAgain: false,
+        scrollToElement: true,
+    
+    })
+    .oncomplete(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+    .onexit(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+    .start();
+});

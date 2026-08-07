@@ -281,10 +281,11 @@ async function rezeptLaden() {
     return antwort.json();
 }
 /* 1.2 Grundgerüst anzeigen */
+/* 1.2 Grundgerüst anzeigen */
 function rezeptGrundgeruestAnzeigen(rezept) {
     const bildUrl =
         rezept.bild_url &&
-        rezept.bild_url.trim()
+            rezept.bild_url.trim()
             ? rezept.bild_url
             : "img/Gericht.jpg";
 
@@ -294,15 +295,21 @@ function rezeptGrundgeruestAnzeigen(rezept) {
                 <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
                     <h1 class="my-2">${rezept.titel || ""}</h1>
 
-                    <a
-                        class="btn btn-outline-secondary btn-sm"
-                        href="EigenesRezept.html?id=${encodeURIComponent(rezept.id || rezeptId)}"
-                        aria-label="Rezept ${rezept.titel || ""} bearbeiten">
-                        Rezept bearbeiten
-                    </a>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" id="start-tutorial-btn" class="btn btn-sm btn-gruen rounded-circle px-2 py-1 fw-bold" title="Hilfe & Tour starten" aria-label="Tutorial starten">
+                            ❔
+                        </button>
+
+                        <a
+                            class="btn btn-outline-secondary btn-sm"
+                            href="EigenesRezept.html?id=${encodeURIComponent(rezept.id || rezeptId)}"
+                            aria-label="Rezept ${rezept.titel || ""} bearbeiten" data-title="Rezept bearbeiten" data-intro="Etwas schmeckt nicht? Hier kannst du das Rezept bearbeiten!" data-step="4">
+                            Rezept bearbeiten
+                        </a>
+                    </div>
                 </div>
 
-                <div class="d-flex gap-3 mb-4 flex-wrap">
+                <div class="d-flex gap-3 mb-4 flex-wrap" data-title="Rezeptübersicht" data-intro="Hier siehst du alle Details zum gewählten Rezept auf einen Blick." data-step="1">
                     <span class="text-muted">
                         ${rezept.kategorie || ""}
                     </span>
@@ -313,8 +320,8 @@ function rezeptGrundgeruestAnzeigen(rezept) {
                         Gesamtdauer:
                         ${rezept.zubereitungszeit?.gesamt_min || ""}
                         ${rezept.zubereitungszeit?.gesamt_min
-                            ? " Minuten"
-                            : ""}
+            ? " Minuten"
+            : ""}
                     </span>
 
                     <span class="text-muted">·</span>
@@ -328,7 +335,7 @@ function rezeptGrundgeruestAnzeigen(rezept) {
         </div>
 
         <div class="row justify-content-center mb-4">
-            <div class="col-md-8 border border-secondary rounded ps-4 py-4">
+            <div class="col-md-8 border border-secondary rounded ps-4 py-4" data-title="Zutaten & Portionen" data-intro="Pass die Portionsanzahl an. Die Mengen berechnen sich automatisch. Über '+ Einkaufsliste' überträgst du die Zutaten direkt in deine Einkaufsliste." data-step="2">
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <img
@@ -375,44 +382,38 @@ function rezeptGrundgeruestAnzeigen(rezept) {
         </div>
 
         <div class="row justify-content-center mb-4">
-            <div
-                class="col-md-8 border border-secondary rounded p-4"
-                id="vorbereitung-container">
-
-                <h2 class="h3">Vorbereitung</h2>
-
-                <div class="d-flex gap-3 mb-4">
-                    <span class="text-muted">
-                        Vorbereitungsdauer:
-                        ${rezept.zubereitungszeit?.vorbereitung_min || ""}
-                        ${rezept.zubereitungszeit?.vorbereitung_min
-                            ? " Minuten"
-                            : ""}
-                    </span>
+            <!-- Dieser Wrapper umfasst beide Blöcke und bietet links Platz für den Tooltip -->
+            <div class="col-md-8 p-0" 
+                 data-title="Zubereitungsschritte" 
+                 data-intro="Folge der Schritt-für-Schritt-Anleitung für die Vorbereitung und Zubereitung deines Gerichts." 
+                 data-step="3">
+                
+                <!-- Vorbereitung -->
+                <div class="border border-secondary rounded p-4 mb-4" id="vorbereitung-container">
+                    <h2 class="h3">Vorbereitung</h2>
+                    <div class="d-flex gap-3 mb-4">
+                        <span class="text-muted">
+                            Vorbereitungsdauer:
+                            ${rezept.zubereitungszeit?.vorbereitung_min || ""}
+                            ${rezept.zubereitungszeit?.vorbereitung_min ? " Minuten" : ""}
+                        </span>
+                    </div>
+                    <div id="vorbereitung-schritte"></div>
                 </div>
 
-                <div id="vorbereitung-schritte"></div>
-            </div>
-        </div>
-
-        <div class="row justify-content-center">
-            <div
-                class="col-md-8 border border-secondary rounded p-4"
-                id="zubereitung-container">
-
-                <h2 class="h3">Zubereitung</h2>
-
-                <div class="d-flex gap-3 mb-4">
-                    <span class="text-muted">
-                        Zubereitungsdauer:
-                        ${rezept.zubereitungszeit?.kochen_min || ""}
-                        ${rezept.zubereitungszeit?.kochen_min
-                            ? " Minuten"
-                            : ""}
-                    </span>
+                <!-- Zubereitung -->
+                <div class="border border-secondary rounded p-4" id="zubereitung-container">
+                    <h2 class="h3">Zubereitung</h2>
+                    <div class="d-flex gap-3 mb-4">
+                        <span class="text-muted">
+                            Zubereitungsdauer:
+                            ${rezept.zubereitungszeit?.kochen_min || ""}
+                            ${rezept.zubereitungszeit?.kochen_min ? " Minuten" : ""}
+                        </span>
+                    </div>
+                    <div id="zubereitung-schritte"></div>
                 </div>
 
-                <div id="zubereitung-schritte"></div>
             </div>
         </div>
     `;
@@ -603,15 +604,59 @@ function rezeptEventsRegistrieren() {
     const einkaufslisteButton =
         document.getElementById("aufeinkaufsliste");
 
-    portionenInput.addEventListener(
+    const tutorialButton =
+        document.getElementById("start-tutorial-btn");
+
+    portionenInput?.addEventListener(
         "input",
         portionenAenderungVerarbeiten
     );
 
-    einkaufslisteButton.addEventListener(
+    einkaufslisteButton?.addEventListener(
         "click",
         zutatenZurEinkaufslisteHinzufuegen
     );
+
+    tutorialButton?.addEventListener("click", () => {
+        introJs().setOptions({
+            nextLabel: 'Weiter',
+            prevLabel: 'Zurück',
+            doneLabel: 'Fertig!',
+            dontShowAgain: false,
+            scrollToElement: true,
+            scrollTo: 'tooltip',
+            scrollPadding: 30,
+        })
+            .onbeforechange(function (targetElement) {
+                const stepNumber = targetElement.getAttribute('data-step');
+
+                // Scrollt bei Schritt 3 etwas nach unten, damit es schöner aussieht
+                if (stepNumber === '3') {
+                    setTimeout(() => {
+                        window.scrollBy({
+                            top: 150, 
+                            behavior: 'smooth'
+                        });
+                    }, 300);
+                }
+
+                // Wenn wir von Schritt 3 zu Schritt 4 gehen wird wieder explizit nach oben gescrollt
+                if (stepNumber === '4') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            })
+            .oncomplete(() => {
+                setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 100);
+            })
+            .onexit(() => {
+                setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 100);
+            })
+            .start();
+    });
 }
 
 /* Fehlermeldungen */

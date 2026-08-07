@@ -282,3 +282,23 @@ function eventsRegistrieren() {
 }
 
 seiteInitialisieren();
+
+// Tutorial für die Einkaufsliste starten
+document.getElementById("start-tutorial-btn").addEventListener("click", () => {
+    introJs().setOptions({
+        nextLabel: 'Weiter',
+        prevLabel: 'Zurück',
+        doneLabel: 'Fertig!',
+        dontShowAgain: false,
+        scrollToElement: true,
+        scrollTo: 'tooltip',
+        scrollPadding: 30,
+    })
+        .oncomplete(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .onexit(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .start();
+});

@@ -193,21 +193,28 @@ body {
 }
 
 /* Rezeptkarten (Rezepte) */
-.begrenzung{
+.begrenzung {
     border: 3px solid var(--begrenzungen) !important;    
     display: flex !important;           
     line-height: 0 !important;
+    overflow: hidden !important; 
 }
 
-.begrenzung img{
-    transition: transform 0.3s ease;
+.begrenzung img {
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     width: 100%;
     height: auto;
     display: block !important;
+    
+    /* Perfektes Pre-Rendering beim ersten Laden */
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: scale(1.0001) translateZ(0); /* Zwingt GPU-Layer sofort beim Pageload */
+    transform-origin: center center;
 }
 
-.begrenzung:hover img{
-    transform: scale(1.1);
+.begrenzung:hover img {
+    transform: scale(1.1) translateZ(0);
 }
 
 .recipe-title-overlay {
@@ -431,3 +438,71 @@ textarea:focus-visible {
     outline: 3px solid #13413e;
     outline-offset: 3px;
 }
+
+/* Turorial */
+
+.erster-schritt-tooltip {
+    margin-left: 15px !important;
+}
+
+#start-tutorial-btn-index {
+    width: 50px;
+    height: 50px;
+    font-size: 26px !important;
+    text-align: center !important;
+    border-radius: 16px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+}
+
+.introjs-tooltip {
+    background-color: var(--hintergrund-hell) !important;
+    color: var(--schrift-standard) !important;
+    border: 2px solid var(--begrenzungen) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 15px rgba(19, 65, 62, 0.15) !important;
+    padding: 18px !important;}
+
+.introjs-button {
+    background-color: var(--button-gruen) !important;
+    color: var(--hintergrund-hell) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    text-shadow: none !important;
+    font-weight: 600 !important;
+    padding: 6px 14px !important;
+    transition: background-color 0.2s ease !important;
+}
+.introjs-button:hover, 
+.introjs-button:focus {
+    background-color: var(--button-gruen-hoover) !important;
+    color: var(--hintergrund-hell) !important;
+    box-shadow: none !important;
+}
+.introjs-disabled, 
+.introjs-disabled:hover {
+    background-color: #c5ccb8 !important;
+    color: #6c757d !important;
+    cursor: not-allowed !important;
+}
+
+.introjs-arrow.top {
+    border-bottom-color: var(--begrenzungen) !important;
+}
+
+.introjs-arrow.right {
+    border-left-color: var(--begrenzungen) !important;
+}
+
+
+.introjs-arrow.bottom {
+    border-top-color: var(--begrenzungen) !important;
+}
+
+
+.introjs-arrow.left {
+    border-right-color: var(--begrenzungen) !important;
+}
+
