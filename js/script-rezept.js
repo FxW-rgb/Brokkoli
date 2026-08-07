@@ -627,7 +627,7 @@ function rezeptEventsRegistrieren() {
             scrollTo: 'tooltip',
             scrollPadding: 30,
         })
-            .onbeforechange(function (targetElement) {
+            /*.onbeforechange(function (targetElement) {
                 const stepNumber = targetElement.getAttribute('data-step');
 
                 // Scrollt bei Schritt 3 etwas nach unten, damit es schöner aussieht
@@ -644,7 +644,7 @@ function rezeptEventsRegistrieren() {
                 if (stepNumber === '4') {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
-            })
+            })*/
             .oncomplete(() => {
                 setTimeout(() => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
