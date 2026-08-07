@@ -520,3 +520,13 @@ textarea:focus-visible {
     border-right-color: var(--begrenzungen) !important;
 }
 
+/* Sicherheitsbegrenzung mobile Ansicht */
+@media (max-width: 576px) {
+    .introjs-tooltip {
+        box-sizing: border-box !important;
+        width: calc(100vw - 24px) !important;
+        min-width: 0 !important;
+        max-width: calc(100vw - 24px) !important;
+        padding: 14px !important;
+    }
+}
