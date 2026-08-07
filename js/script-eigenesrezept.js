@@ -620,17 +620,19 @@ seiteInitialisieren();
 /* Tutorial für eigenes Rezept starten */
 document.getElementById("start-tutorial-btn").addEventListener("click", () => {
     introJs().setOptions({
-        nextLabel: 'Weiter',
-        prevLabel: 'Zurück',
-        doneLabel: 'Fertig!',
-        dontShowAgain: false,
-        scrollToElement: true
-    })
-        .oncomplete(() => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        })
-        .onexit(() => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        })
-        .start();
+    nextLabel: 'Weiter',
+    prevLabel: 'Zurück',
+    doneLabel: 'Fertig!',
+    dontShowAgain: false,
+    scrollToElement: true,
+    scrollTo: 'tooltip',
+    scrollPadding: 30
+})
+   .oncomplete(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+   })
+   .onexit(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+   })
+   .start();
 });
