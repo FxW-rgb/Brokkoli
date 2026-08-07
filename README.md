@@ -12,7 +12,7 @@ Für die API-basierten Funktionen wird zusätzlich eine Internetverbindung benö
 
 Hinweis: Da es sich um ein Uni-Projekt handelt, ist das Backend zugriffsbeschränkt. Beim Anlegen und Bearbeiten eines Rezepts wird der API-Key abgefragt. Der Schlüssel wird nur im Header `X-API-Key` der aktuellen Anfrage verwendet und nicht gespeichert. 
 
-### Anleitung & Funktionsüberblick
+## Anleitung & Funktionsüberblick
 Die Kochbuchwebsite bietet die Möglichkeit auf der Startseite alle Rezepte aus der Datenbank abzurufen und anzuzeigen. Dazu können die Rezepte über die Filter nach Kategorie, Landesküche und Schwierigkeit eingeschränkt wund nach Titel durchsucht werden.
 Die einzelnen Rezepte sind übersichtlich nach benötigten Zutaten, Vorbereitungsschritten und Zubereitungsschritten gegliedert. Die Zutatenliste kann je nach erforderlicher Portionsanzahl automatisch angepasst und mit einem Klick auf die Einkaufliste übertragen werden. Auch eine inhaltliche Überarbeitung des Rezptes ist über den Button "Rezept bearbeiten" möglich.
 Die Einkaufliste ermöglicht neben der direkten Übertragung von Zutaten aus den Rezepten auch manuelle Ergänzungen. Wiederholt vorkommende Zutaten werden bei gleicher Einheit zusammengefasst. Die Einkaufsliste kann als JSON exportiert werden. Einzelne Zutaten können ebenso wie die gesamte Liste durchgestrichen ("gekauft") oder entfernt ("löschen") werden.
