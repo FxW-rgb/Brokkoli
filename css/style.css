@@ -441,8 +441,10 @@ textarea:focus-visible {
 
 /* Turorial */
 
-.erster-schritt-tooltip {
-    margin-left: 15px !important;
+@media (min-width: 577px) {
+    .erster-schritt-tooltip {
+        margin-left: 15px !important;
+    }
 }
 
 #start-tutorial-btn-index {
