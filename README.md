@@ -119,7 +119,7 @@ Im Ordner `rezepte/` liegt mit `kaiserschmarrn-aus-dem-ofen(1).json` ein Beispie
 
 ### `script-rezepte.js`
 
-Dieses Skript ist für die Rezepüebersicht verantwortlich. Es lädt Rezepte aus der API, speichert sie in einem Array und rendert sie als Karten. Ausserdem werden die Filter für Kategorie, Landesküche, Schwierigkeitsgrad und Suche umgesetzt.
+Dieses Skript ist für die Rezeptübersicht verantwortlich. Es lädt Rezepte aus der API, speichert sie in einem Array und rendert sie als Karten. Ausserdem werden die Filter für Kategorie, Landesküche, Schwierigkeitsgrad und Suche umgesetzt.
 
 ### `script-rezept.js`
 
@@ -147,7 +147,7 @@ Umgesetzt sind unter anderem:
 
 ## Barrierefreiheit
 
-Das Projekt enthält mehrere Massnahmen zur besseren Zugänglichkeit:
+Das Projekt enthält mehrere Maßnahmen zur besseren Zugänglichkeit:
 - deutsche Sprachangabe ueber `lang="de"`
 - Viewport-Meta-Tag für korrekte Darstellung auf mobilen Geräten
 - semantische Hauptbereiche mit `main`
