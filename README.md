@@ -6,6 +6,7 @@ Im Mittelpunkt stehen eine Rezeptübersicht mit Such- und Filterfunktionen, eine
 ## Nutzung
 
 Die Website ist erreichbar unter: https://fxw-rgb.github.io/Brokkoli/index.html
+
 Alternativ kann die Website über einen lokalen Webserver gestartet werden. Dazu im Terminal zunächst in den Projektordner wechseln und anschließend python -m http.server 5500 bzw. python3 -m http.server ausführen. Danach die Anwendung im Browser öffnen (http://localhost:5500/index.html). Der Server kann im Terminal mit `Strg+C` beendet werden. Hinweis: Für die API-basierten Funktionen wird zusätzlich eine Internetverbindung benötigt. 
 
 Tipp: Für jede Seite ist ein eigenständiges Tutorial eingerichtet, dass über die jeweiligen "?" Buttons aufgerufen werden kann.
