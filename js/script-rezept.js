@@ -147,7 +147,7 @@ function mengeOriginalAuslesen(zutat) {
     ).trim();
 
     const treffer = mengeOriginal.match(
-        /^(\d+(?:[.,]\d+)?(?:\s+(?:\d+\/\d+|[¼½¾⅐⅑⅒⅓⅔⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞]))?|\d+\/\d+|[¼½¾⅐⅑⅒⅓⅔⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞])\s*(.*)$/
+        /^(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:[.,]\d+)?\s*[¼½¾⅐⅑⅒⅓⅔⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞]|[¼½¾⅐⅑⅒⅓⅔⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞]|\d+(?:[.,]\d+)?)\s*(.*)$/
     );
 
     if (!treffer) {
@@ -618,42 +618,36 @@ function rezeptEventsRegistrieren() {
     );
 
     tutorialButton?.addEventListener("click", () => {
+        const navigation = document.querySelector("header nav");
+        const schritte = [
+            { element: navigation, title: "Navigation", intro: "Hier kannst du zur Rezeptübersicht oder Einkaufsliste wechseln und eigene Rezepte erstellen." },
+            { element: rezeptInhalt.querySelector("h1"), title: "Rezeptübersicht", intro: "Hier siehst du das gewählte Rezept. Darunter stehen Kategorie, Gesamtdauer und Schwierigkeitsgrad." },
+            { element: portionenInput.parentElement, title: "Zutaten & Portionen", intro: "Pass die Portionsanzahl an. Die Mengen in der Zutatenliste darunter berechnen sich automatisch." },
+            { element: einkaufslisteButton, title: "Zur Einkaufsliste", intro: "Hier überträgst du die Zutaten mit den aktuell gewählten Mengen in deine Einkaufsliste." },
+            { element: document.querySelector("#vorbereitung-container h2"), title: "Vorbereitung", intro: "Hier findest du die Vorbereitungsschritte und ihre Dauer." },
+            { element: document.querySelector("#zubereitung-container h2"), title: "Zubereitung", intro: "Folge diesen Schritten, um dein Gericht zuzubereiten." },
+            { element: rezeptInhalt.querySelector('[data-title="Rezept bearbeiten"]'), title: "Rezept bearbeiten", intro: "Hier kannst du das Rezept im Formular bearbeiten." }
+        ];
+
         introJs().setOptions({
+            steps: schritte,
             nextLabel: 'Weiter',
             prevLabel: 'Zurück',
             doneLabel: 'Fertig!',
             dontShowAgain: false,
-            scrollToElement: true,
-            scrollTo: 'tooltip',
-            scrollPadding: 30,
+            scrollToElement: false,
+            positionPrecedence: ['bottom', 'top', 'right', 'left']
         })
-            /*.onbeforechange(function (targetElement) {
-                const stepNumber = targetElement.getAttribute('data-step');
-
-                // Scrollt bei Schritt 3 etwas nach unten, damit es schöner aussieht
-                if (stepNumber === '3') {
-                    setTimeout(() => {
-                        window.scrollBy({
-                            top: 150, 
-                            behavior: 'smooth'
-                        });
-                    }, 300);
-                }
-
-                // Wenn wir von Schritt 3 zu Schritt 4 gehen wird wieder explizit nach oben gescrollt
-                if (stepNumber === '4') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            })*/
-            .oncomplete(() => {
-                setTimeout(() => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }, 100);
+            .onbeforechange(targetElement => {
+                // Erst den Zielbereich positionieren, dann den Tooltip berechnen lassen.
+                // Sofortiges Scrollen verhindert konkurrierende Scroll-Animationen.
+                const zielPosition = targetElement === navigation
+                    ? 0
+                    : window.scrollY + targetElement.getBoundingClientRect().top - 24;
+                window.scrollTo({ top: Math.max(0, zielPosition), behavior: 'instant' });
             })
             .onexit(() => {
-                setTimeout(() => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }, 100);
+                window.scrollTo({ top: 0, behavior: 'instant' });
             })
             .start();
     });
