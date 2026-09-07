@@ -285,20 +285,35 @@ seiteInitialisieren();
 
 // Tutorial für die Einkaufsliste starten
 document.getElementById("start-tutorial-btn").addEventListener("click", () => {
+    const isMobile = window.innerWidth <= 576;
+
     introJs().setOptions({
         nextLabel: 'Weiter',
         prevLabel: 'Zurück',
         doneLabel: 'Fertig!',
         dontShowAgain: false,
-        scrollToElement: true,
-        scrollTo: 'tooltip',
-        scrollPadding: 30,
+        scrollToElement: false,
+        positionPrecedence: ["bottom", "top", "right", "left"],
+        autoPosition: true
     })
-        .oncomplete(() => {
+    .onchange((targetElement) => {
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: isMobile ? 'center' : 'start', 
+                inline: 'nearest'
+            });
+        }
+    })
+    .oncomplete(() => {
+        setTimeout(() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        })
-        .onexit(() => {
+        }, 100);
+    })
+    .onexit(() => {
+        setTimeout(() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        })
-        .start();
+        }, 100);
+    })
+    .start();
 });

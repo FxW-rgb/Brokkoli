@@ -61,7 +61,7 @@
                     <label class="visually-hidden" for="suchbegriff">Rezept oder Zutat suchen</label>
                     <input type="text" class="form-control search-input" placeholder="Rezept oder Zutat suchen..."
                         id="suchbegriff">
-                    <button type="button" class="search-btn" aria-label="Suche starten">
+                    <button type="button" class="search-btn" aria-label="Suche starten" id="lupenKnopf">
                         <img src="img/Lupensymbol.png" class="search-icon img-fluid"
                             alt="Lupensymbol zur Repräsentation der Suchfunktion">
                     </button>
@@ -69,7 +69,7 @@
             </div>
         </div>
 
-        <!-- Filter + Fragezeichen-Knopf -->
+        <!-- Filter-Dropdowns + Fragezeichen-Knopf -->
         <div style="background-color: var(--hintergrund-hellgruen); padding: 10px;">
             <div class="container">
                 <div class="filter-container d-flex align-items-center justify-content-between">
@@ -78,6 +78,8 @@
                     <div class="d-flex align-items-center gap-3 flex-wrap" data-title="Rezepte filtern"
                         data-intro="Grenze die Rezepte nach Kategorie, Landesküche oder Schwierigkeitsgrad ein."
                         data-step="3">
+                        
+                        <!-- Kategorie-Filter -->
                         <div class="filterauswahl d-flex align-items-center gap-2">
                             <label class="form-label mb-0 text-nowrap" for="kategorieFilter">🍽️ Kategorie:</label>
                             <select class="form-control" id="kategorieFilter">
@@ -90,21 +92,22 @@
                             </select>
                         </div>
 
+                        <!-- Küche-Filter -->
                         <div class="filterauswahl d-flex align-items-center gap-2">
                             <label class="form-label mb-0 text-nowrap" for="kuecheFilter">🌍 Landesküche:</label>
                             <select class="form-control" id="kuecheFilter">
-                                <option value="">Lädt...</option>
+                                <option value="">Lädt...</option> <!-- Platzhalter-Wert, der zeigt, dass die Landesküchen noch mittels einer JavaScript-Funktion gesammelt werden -->
                             </select>
                         </div>
 
+                        <!-- Schwierigkeit-Filter -->
                         <div class="filterauswahl d-flex align-items-center gap-2">
-                            <label class="form-label mb-0 text-nowrap" for="schwierigkeitFilter">⚙️
-                                Schwierigkeitsgrad:</label>
+                            <label class="form-label mb-0 text-nowrap" for="schwierigkeitFilter">⚙️ Schwierigkeitsgrad:</label>
                             <select class="form-control" id="schwierigkeitFilter">
-                                <option class="filterauswahl" value="">alle</option>
-                                <option class="filterauswahl" value="leicht">leicht</option>
-                                <option class="filterauswahl" value="mittel">mittel</option>
-                                <option class="filterauswahl" value="schwer">schwer</option>
+                                <option value="">alle</option>
+                                <option value="leicht">leicht</option>
+                                <option value="mittel">mittel</option>
+                                <option value="schwer">schwer</option>
                             </select>
                         </div>
                     </div>
