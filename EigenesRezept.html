@@ -79,7 +79,7 @@
                         <form id="rezept-formular">
                             <div class="row g-3"
                                  data-title="Basisdaten"
-                                 data-intro="Trage hier Titel, Portionen, Kategorien, Bild sowie die Zubereitungszeiten ein."
+                                 data-intro="Trage hier Titel, Portionen, Kategorien, Ökobilanz, Kurzbeschreibung, Bild sowie die Zubereitungszeiten ein."
                                  data-step="3">
                                 <!-- Titel -->
                                 <div class="col-md-8">
@@ -120,6 +120,21 @@
                                 <div class="col-md-6">
                                     <label class="form-label" for="kueche">Landesküche</label>
                                     <input type="text" class="form-control" id="kueche" placeholder="z. B. italienisch" required>
+                                </div>
+
+                                <!-- Ökobilanz und Kurzbeschreibung -->
+                                <div class="col-md-6">
+                                    <label class="form-label" for="oekobilanz">Ökobilanz</label>
+                                    <select class="form-control" id="oekobilanz" required>
+                                        <option value="" selected disabled>Bitte auswählen</option>
+                                        <option value="gut">gut</option>
+                                        <option value="mittel">mittel</option>
+                                        <option value="schlecht">schlecht</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label" for="kurzbeschreibung">Kurzbeschreibung (optional)</label>
+                                    <textarea class="form-control" id="kurzbeschreibung" rows="3"></textarea>
                                 </div>
 
                                 <!-- Bild-Upload -->
