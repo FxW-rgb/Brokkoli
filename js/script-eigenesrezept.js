@@ -159,7 +159,7 @@ function bearbeitungsmodusInitialisieren() {
         })
         .then(rezeptInFormularLaden)
         .catch(fehler => {
-            meldungAnzeigen("danger", `<strong>Rezept konnte nicht geladen werden.</strong><br>${fehler.message}`);
+            meldungAnzeigen("danger", `<strong>Rezept konnte nicht geladen werden.</strong><br>${htmlTextMaskieren(fehler.message)}`);
         });
 }
 
@@ -442,17 +442,20 @@ async function rezeptSendenNachBestaetigung() {
     apiKeyFehler.classList.add("d-none");
     try {
         const gespeichertesRezept = await rezeptAnApiSenden(apiKey);
-        const gespeicherteId = gespeichertesRezept.id || geladenesRezeptId;
+        if (gespeichertesRezept.status === 202) {
+            apiKeyFehler.textContent = `${gespeichertesRezept.methode} – HTTP 202: Die Anfrage wurde angenommen, die Speicherung ist noch nicht bestätigt. Bitte vor erneutem Senden den Rezeptbestand prüfen.`;
+            apiKeyFehler.classList.remove("d-none");
+            return;
+        }
+        const gespeicherteId = gespeichertesRezept.daten?.id || geladenesRezeptId;
         apiKeyDialog.hide();
         apiKeyEingabe.value = "";
         formularLeeren();
-        meldungAnzeigen("success", "Das Rezept wurde erfolgreich gespeichert.");
+        meldungAnzeigen("success", `${gespeichertesRezept.methode} – HTTP ${gespeichertesRezept.status}: Die API hat die Speicherung bestätigt.${gespeichertesRezept.hinweis}`);
         if (gespeicherteId) window.location.href = `Rezept.html?id=${encodeURIComponent(gespeicherteId)}`;
     } catch (fehler) {
         console.error("Fehler beim Speichern in der API:", fehler);
-        apiKeyFehler.textContent = fehler instanceof TypeError
-            ? "Die Anfrage konnte nicht gesendet werden. Der API-Server ist möglicherweise nicht erreichbar oder blockiert die Anfrage aufgrund seiner CORS-Einstellungen."
-            : (fehler.message || "Beim API-Aufruf ist ein unbekannter Fehler aufgetreten.");
+        apiKeyFehler.textContent = fehler.message || "Beim Verarbeiten der API-Anfrage ist ein unbekannter Fehler aufgetreten.";
 
         apiKeyFehler.classList.remove("d-none");
     } finally {
@@ -479,36 +482,90 @@ async function rezeptAnApiSenden(apiKey) {
 
     // API-Request für Rezept-Upload (POST oder PATCH)
     if (ausgewaehlteBildDatei) rezept.bild_url = " ";
-    const antwort = await fetch(
-        geladenesRezeptId ? `https://recipes.digitalhumanities.io/api/rezepte/${encodeURIComponent(geladenesRezeptId)}/` : "https://recipes.digitalhumanities.io/api/rezepte/",
-        {
-            method: geladenesRezeptId ? "PATCH" : "POST",
+    const methode = geladenesRezeptId ? "PATCH" : "POST";
+    const url = geladenesRezeptId
+        ? `https://recipes.digitalhumanities.io/api/rezepte/${encodeURIComponent(geladenesRezeptId)}/`
+        : "https://recipes.digitalhumanities.io/api/rezepte/";
+    let antwort;
+    try {
+        antwort = await fetch(url, {
+            method: methode,
             headers: { "Content-Type": "application/json", "X-API-Key": apiKey },
             body: JSON.stringify(rezept)
-        }
-    );
-    if (!antwort.ok) throw await apiFehlerErstellen(antwort);
-    return antwort.json();
-}
-
-/* 4.3 Fehlermeldungen erstellen */
-async function apiFehlerErstellen(antwort) {
-    let details = "";
-    try {
-        const fehlerDaten = await antwort.json();
-        details = fehlerDaten.detail || fehlerDaten.message || Object.entries(fehlerDaten)
-            .map(([feld, meldung]) => `${feld}: ${Array.isArray(meldung) ? meldung.join(", ") : meldung}`)
-            .join("; ");
+        });
     } catch {
-        details = "Die API hat keine lesbare Fehlerbeschreibung zurückgegeben.";
+        // Ohne lesbare HTTP-Antwort lässt sich CORS nicht von Netzwerkfehlern unterscheiden.
+        throw new Error(`${methode}: Keine HTTP-Antwort für den Browser verfügbar. Mögliche Ursachen sind Netzwerk-, TLS- oder CORS-Probleme. Bitte in den Entwicklertools die Netzwerkansicht und gegebenenfalls die OPTIONS-Anfrage prüfen. Der Speicherstatus ist unbekannt; vor erneutem Senden den Rezeptbestand prüfen.`);
     }
-    if (antwort.status === 400) return new Error(`Die Rezeptdaten sind unvollständig oder ungültig. ${details}`);
-    if (antwort.status === 401 || antwort.status === 403) return new Error("Der API-Key fehlt oder ist falsch.");
-    if (antwort.status === 404) return new Error("Das zu bearbeitende Rezept wurde nicht gefunden.");
-    if (antwort.status >= 500) return new Error("Der API-Server ist momentan nicht verfügbar. Bitte versuche es später erneut.");
-    return new Error(`API-Fehler ${antwort.status}: ${details || antwort.statusText}`);
+    if (!antwort.ok) throw await apiFehlerErstellen(antwort, methode, apiKey);
+
+    // Auch 204 oder eine leere Antwort können eine erfolgreiche Speicherung bestätigen.
+    let daten = null;
+    let hinweis = "";
+    try {
+        const text = await antwort.text();
+        if (text.trim()) {
+            try {
+                daten = JSON.parse(text);
+            } catch {
+                hinweis = " Die Antwort enthält kein gültiges JSON; die Rezept-ID konnte nicht ausgelesen werden.";
+            }
+        }
+    } catch {
+        hinweis = " Der Antwortinhalt konnte nicht gelesen werden. Bitte den Rezeptbestand prüfen.";
+    }
+    return { daten, status: antwort.status, methode, hinweis };
 }
 
+/* 4.3 HTTP-Status und Serverdetails getrennt aufbereiten */
+async function apiFehlerErstellen(antwort, methode = "GET", apiKey = "") {
+    const beschreibungen = {
+        400: "Die API hat die Rezeptdaten als ungültig abgelehnt.",
+        401: "Die Authentifizierung fehlt oder wurde nicht akzeptiert.",
+        403: "Zugriff verweigert. Möglicherweise fehlt die Schreibberechtigung oder eine Serverregel blockiert die Anfrage; das beweist keinen falschen API-Key.",
+        404: "Der Endpunkt oder das angegebene Rezept wurde nicht gefunden.",
+        405: "Die HTTP-Methode ist an diesem Endpunkt nicht erlaubt.",
+        409: "Die Anfrage steht im Konflikt mit dem aktuellen Datenbestand.",
+        413: "Die gesendeten Daten sind zu groß.",
+        415: "Die API akzeptiert das gesendete Datenformat nicht.",
+        422: "Die API konnte die Rezeptdaten nicht validieren.",
+        429: "Zu viele Anfragen. Bitte später erneut versuchen."
+    };
+    const beschreibung = beschreibungen[antwort.status]
+        || (antwort.status >= 500 ? "Bei der Verarbeitung ist ein Serverfehler aufgetreten." : "Die API hat die Anfrage abgelehnt.");
+    let details;
+    try {
+        const text = await antwort.text();
+        if (!text.trim()) {
+            details = "Kein Antwortinhalt vorhanden.";
+        } else if (/^\s*</.test(text)) {
+            details = "Der Server liefert eine HTML/XML-Fehlerseite. Den vollständigen Inhalt findest du in der Netzwerkansicht.";
+        } else {
+            try {
+                details = apiDetailsFormatieren(JSON.parse(text));
+            } catch {
+                details = text;
+            }
+        }
+    } catch {
+        details = "Der Antwortinhalt konnte nicht gelesen werden.";
+    }
+    // Falls ein Server den Schlüssel zurückspiegelt, darf er nicht in der Meldung landen.
+    if (apiKey) details = details.split(apiKey).join("[API-Key ausgeblendet]");
+    details = details.slice(0, 2000);
+    const erlaubteMethoden = antwort.status === 405 ? antwort.headers.get("Allow") : null;
+    const warten = antwort.status === 429 ? antwort.headers.get("Retry-After") : null;
+    return new Error(`${methode} – HTTP ${antwort.status}: ${beschreibung} API-Details: ${details || "Keine weiteren Details."}${erlaubteMethoden ? ` Erlaubte Methoden: ${erlaubteMethoden}.` : ""}${warten ? ` Retry-After: ${warten}.` : ""}`);
+}
+
+function apiDetailsFormatieren(wert, pfad = "") {
+    if (wert !== null && typeof wert === "object") {
+        return Object.entries(wert).map(([feld, inhalt]) =>
+            apiDetailsFormatieren(inhalt, pfad ? `${pfad}.${feld}` : feld)
+        ).filter(Boolean).join("; ");
+    }
+    return `${pfad ? pfad + ": " : ""}${String(wert)}`;
+}
 
 
 /* 5. Rezept lokal speichern (JSON) */
@@ -563,7 +620,7 @@ async function rezeptAlsJsonHerunterladen() {
     } catch (fehler) {
         // Abbrechen im Betriebssystemdialog ist kein Fehler und lässt das Formular unverändert.
         if (fehler.name === "AbortError") return;
-        meldungAnzeigen("danger", `Die JSON-Datei konnte nicht gespeichert werden: ${fehler.message}`);
+        meldungAnzeigen("danger", `Die JSON-Datei konnte nicht gespeichert werden: ${htmlTextMaskieren(fehler.message)}`);
         return;
     }
 
@@ -636,3 +693,8 @@ document.getElementById("start-tutorial-btn").addEventListener("click", () => {
    })
    .start();
 });
+
+// Dynamische Fehlermeldungen in Bootstrap-Alerts als Text behandeln.
+function htmlTextMaskieren(text) {
+    return String(text).replace(/[&<>"']/g, zeichen => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '\"': "&quot;", "'": "&#39;" }[zeichen]));
+}
