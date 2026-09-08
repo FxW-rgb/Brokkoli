@@ -470,30 +470,22 @@ async function rezeptSendenNachBestaetigung() {
 /* 4.2 API-Request ausführen */
 async function rezeptAnApiSenden(apiKey) {
     const rezept = rezeptAusFormularErstellen();
-
-    // bild_url dient der Anzeige und dem lokalen JSON-Export, nicht dem API-Schreibzugriff.
     delete rezept.bild_url;
 
-    /* Bildübertragung im selben POST-/PATCH-Request (vorerst deaktiviert).
-       Laut API-Schema heißt das Schreibfeld "bild" (String, maximal 255 Zeichen).
-       Noch ungeklärt ist, welches Format erwartet wird: Dateiname, Pfad oder URL.
-       Eine lokale Bilddatei darf deshalb nicht direkt in das JSON eingesetzt werden.
-       Erst nach Klärung die passende Umwandlung/Übertragung implementieren und
-       den bestätigten Textwert hier zuweisen; ein separater Bild-Endpunkt ist nicht belegt.
-
+    /* Bildübertragung vorerst deaktiviert, da laut API-Schema für das Schreibfeld "bild" ein String, maximal 255 Zeichen erwartet wird.
+       Eine lokale Bilddatei kann deshalb nicht direkt in das JSON eingesetzt werden.
+       
     if (ausgewaehlteBildDatei) {
         rezept.bild = bildwertImBestaetigtenApiFormat;
     }
     */
 
-    // Das gesamte Formular wird weiterhin zum Anlegen oder umfassenden Bearbeiten gesendet.
-    return geladenesRezeptId
+   return geladenesRezeptId
         ? aendereRezept(geladenesRezeptId, rezept, apiKey)
         : legeRezeptAn(rezept, apiKey);
 }
 
-// Wie im Walkthrough: POST an die Basis-URL, PATCH an den Detail-Endpunkt.
-// Den Schlüssel übergeben wir aus dem Dialog, statt ihn im Quelltext zu speichern.
+//Schlüssel übergeben (Dialog).
 function legeRezeptAn(rezept, apiKey) {
     return rezeptAnfrageSenden(API_URL, "POST", rezept, apiKey);
 }
@@ -512,7 +504,6 @@ async function rezeptAnfrageSenden(url, methode, rezept, apiKey) {
             body: JSON.stringify(rezept)
         });
     } catch {
-        // Ohne lesbare HTTP-Antwort lässt sich CORS nicht von Netzwerkfehlern unterscheiden.
         throw new Error(`${methode}: Keine HTTP-Antwort für den Browser verfügbar. Mögliche Ursachen sind Netzwerk-, TLS- oder CORS-Probleme. Bitte in den Entwicklertools die Netzwerkansicht und gegebenenfalls die OPTIONS-Anfrage prüfen. Der Speicherstatus ist unbekannt; vor erneutem Senden den Rezeptbestand prüfen.`);
     }
     if (!antwort.ok) throw await apiFehlerErstellen(antwort, methode, apiKey);
@@ -671,7 +662,7 @@ function formularLeeren() {
 
 /* 7. Initialisierung und Ereignisregistrierung */
 function seiteInitialisieren() {
-    /* 1. Leeres Formular aufbauen und Laden aus JSON oder URL-ID ermöglichen. */
+    /* 7.1 Leeres Formular aufbauen und Laden aus JSON oder URL-ID ermöglichen. */
     dynamischeFormularEventsRegistrieren();
     jsonLadenEventRegistrieren();
     zutatZeileErstellen();
@@ -679,14 +670,14 @@ function seiteInitialisieren() {
     schrittZeileErstellen("zubereitung");
     bearbeitungsmodusInitialisieren();
 
-    /* 2. Bildauswahl und Vorschau aktivieren. */
+    /* 7.2 Bildauswahl und Vorschau aktivieren. */
     bildEventsRegistrieren();
 
-    /* 3. POST/PATCH über den API-Key-Dialog aktivieren. */
+    /* 7.3 POST/PATCH über den API-Key-Dialog aktivieren. */
     rezeptFormular.addEventListener("submit", apiDialogOeffnen);
     apiKeyBestaetigenButton.addEventListener("click", rezeptSendenNachBestaetigung);
 
-    /* 4. Lokales Speichern im API-kompatiblen JSON-Format aktivieren. */
+    /* 7.4 Lokales Speichern im API-kompatiblen JSON-Format aktivieren. */
     jsonSpeichernEventRegistrieren();
 }
 
