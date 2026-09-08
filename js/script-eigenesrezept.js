@@ -20,6 +20,8 @@
 
 /* 0. Vorbereitung: Konstanten & Hilfsfunktionen */
 /* 0.1 Die Konstanten speichern die zugehörigen HTML-Elemente einmalig, damit alle nachfolgenden Funktionen auf dieselben Formularbereiche zugreifen können. */
+const API_URL = "https://recipes.digitalhumanities.io/api/rezepte/";
+
 const rezeptFormular = document.getElementById("rezept-formular");
 const zutatenContainer = document.getElementById("zutaten-container");
 const zutatHinzufuegenButton = document.getElementById("zutat-hinzufuegen");
@@ -91,6 +93,8 @@ function rezeptInhaltPruefen(rezept) {
 /* 1.1 Grundfunktion zum Befüllen der Formularfelder mit Inhalten aus einem bestehenden Rezept (JSON oder API) */
 function rezeptInFormularLaden(rezept) {
     document.getElementById("titel").value = rezept.titel || "";
+    document.getElementById("oekobilanz").value = rezept.oekobilanz?.trim() || "";
+    document.getElementById("kurzbeschreibung").value = rezept.kurzbeschreibung || "";
     document.getElementById("portionen").value = rezept.portionen || 4;
     document.getElementById("kategorie").value = rezept.kategorie || "";
     document.getElementById("kueche").value = rezept.kueche?.trim() || "";
@@ -222,7 +226,7 @@ function bildDateiVerarbeiten(datei) {
     }
 
     ausgewaehlteBildDatei = datei;
-    vorhandeneBildUrl = "";
+    // Bestehende Bild-URL behalten, solange das erwartete Bildformat für die API noch ungeklärt ist.
     bildVorschau.src = URL.createObjectURL(datei);
     bildVorschau.classList.remove("d-none");
     bildUploadHinweis.textContent = datei.name;
@@ -383,7 +387,7 @@ function rezeptAusFormularErstellen() {
             menge: menge,
             einheit: einheit,
             menge_original: `${mengeText}${einheit ? " " + einheit : ""}`,
-            hinweis: menge === null ? (mengeText || " ") : " "
+            hinweis: menge === null ? mengeText : ""
         });
     });
     return {
@@ -391,10 +395,9 @@ function rezeptAusFormularErstellen() {
         kategorie: document.getElementById("kategorie").value.trim(),
         kueche: document.getElementById("kueche").value.trim(),
         schwierigkeitsgrad: document.getElementById("schwierigkeit").value === "einfach" ? "leicht" : document.getElementById("schwierigkeit").value,
-        oekobilanz: " ",
-        kurzbeschreibung: " ",
-        bild: " ",
-        bild_url: vorhandeneBildUrl || " ",
+        oekobilanz: document.getElementById("oekobilanz").value,
+        kurzbeschreibung: document.getElementById("kurzbeschreibung").value.trim(),
+        bild_url: vorhandeneBildUrl.trim(),
         portionen: Number(document.getElementById("portionen").value),
         zubereitungszeit: {
             vorbereitung_min: vorbereitungMin,
@@ -468,24 +471,39 @@ async function rezeptSendenNachBestaetigung() {
 async function rezeptAnApiSenden(apiKey) {
     const rezept = rezeptAusFormularErstellen();
 
-    /* API-Request für Bild-Upload (falls eine neue Bilddatei ausgewählt wurde)
+    // bild_url dient der Anzeige und dem lokalen JSON-Export, nicht dem API-Schreibzugriff.
+    delete rezept.bild_url;
+
+    /* Bildübertragung im selben POST-/PATCH-Request (vorerst deaktiviert).
+       Laut API-Schema heißt das Schreibfeld "bild" (String, maximal 255 Zeichen).
+       Noch ungeklärt ist, welches Format erwartet wird: Dateiname, Pfad oder URL.
+       Eine lokale Bilddatei darf deshalb nicht direkt in das JSON eingesetzt werden.
+       Erst nach Klärung die passende Umwandlung/Übertragung implementieren und
+       den bestätigten Textwert hier zuweisen; ein separater Bild-Endpunkt ist nicht belegt.
+
     if (ausgewaehlteBildDatei) {
-        const bildDaten = new FormData();
-        bildDaten.append("bild", ausgewaehlteBildDatei);
-        const bildAntwort = await fetch("https://recipes.digitalhumanities.io/api/bilder/", {
-            method: "POST", headers: { "X-API-Key": apiKey }, body: bildDaten
-        });
-        if (!bildAntwort.ok) throw await apiFehlerErstellen(bildAntwort);
-        rezept.bild_url = (await bildAntwort.json()).url;
+        rezept.bild = bildwertImBestaetigtenApiFormat;
     }
     */
 
-    // API-Request für Rezept-Upload (POST oder PATCH)
-    if (ausgewaehlteBildDatei) rezept.bild_url = " ";
-    const methode = geladenesRezeptId ? "PATCH" : "POST";
-    const url = geladenesRezeptId
-        ? `https://recipes.digitalhumanities.io/api/rezepte/${encodeURIComponent(geladenesRezeptId)}/`
-        : "https://recipes.digitalhumanities.io/api/rezepte/";
+    // Das gesamte Formular wird weiterhin zum Anlegen oder umfassenden Bearbeiten gesendet.
+    return geladenesRezeptId
+        ? aendereRezept(geladenesRezeptId, rezept, apiKey)
+        : legeRezeptAn(rezept, apiKey);
+}
+
+// Wie im Walkthrough: POST an die Basis-URL, PATCH an den Detail-Endpunkt.
+// Den Schlüssel übergeben wir aus dem Dialog, statt ihn im Quelltext zu speichern.
+function legeRezeptAn(rezept, apiKey) {
+    return rezeptAnfrageSenden(API_URL, "POST", rezept, apiKey);
+}
+
+function aendereRezept(id, aenderungen, apiKey) {
+    return rezeptAnfrageSenden(API_URL + encodeURIComponent(id) + "/", "PATCH", aenderungen, apiKey);
+}
+
+// Gemeinsames fetch-Options-Objekt mit der erweiterten Statusauswertung.
+async function rezeptAnfrageSenden(url, methode, rezept, apiKey) {
     let antwort;
     try {
         antwort = await fetch(url, {
